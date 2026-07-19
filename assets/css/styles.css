@@ -13,6 +13,11 @@
   --color-accent-hover: #1F4380;
   --color-border: #E2E6EC;
 
+  /* Verified/trust signal only — not a second brand accent, kept to this one use */
+  --color-success: #1D8A5F;
+  --color-success-bg: #E9F7F0;
+  --color-success-border: #BFE6D3;
+
   /* Type — single sans-serif throughout, no serif pairing */
   --font-heading: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -23,11 +28,26 @@
   --space-3: 24px;
   --space-4: 32px;
   --space-6: 48px;
-  --section-padding: 96px;
-  --section-padding-mobile: 56px;
+  --section-padding: 120px;
+  --section-padding-mobile: 64px;
 
   /* Layout */
   --max-width: 1200px;
+
+  /* Motion — consistent easing/duration everywhere so it reads as one system */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.15s;
+  --duration-base: 0.25s;
+  --duration-slow: 0.6s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ---------- Reset ---------- */
@@ -72,9 +92,9 @@ body {
 h1, .h1 {
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 32px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-size: 34px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 h2, .h2 {
@@ -93,7 +113,7 @@ h3, .h3 {
 }
 
 @media (min-width: 768px) {
-  h1, .h1 { font-size: 48px; }
+  h1, .h1 { font-size: 60px; letter-spacing: -0.025em; }
   h2, .h2 { font-size: 32px; }
   h3, .h3 { font-size: 22px; }
 }
@@ -136,7 +156,13 @@ section {
   font-size: 16px;
   text-decoration: none;
   border: 1px solid transparent;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn-primary {
@@ -162,7 +188,9 @@ section {
 .site-header {
   border-bottom: 1px solid var(--color-border);
   background: var(--color-bg);
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 30;
 }
 
 .site-header__inner {
@@ -204,6 +232,7 @@ section {
   font-weight: 500;
   font-size: 15px;
   color: var(--color-ink);
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .site-nav__list a:hover {
@@ -232,36 +261,72 @@ section {
   height: 2px;
   background: var(--color-ink);
   margin-inline: auto;
-  transition: transform 0.2s ease, opacity 0.2s ease;
+  transition: transform var(--duration-base) var(--ease-standard), opacity var(--duration-base) var(--ease-standard);
 }
 
 .menu-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
 .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-.site-nav.is-open {
-  display: block;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-  padding: var(--space-3);
-  z-index: 20;
-  box-shadow: 0 12px 24px -8px rgba(20, 23, 31, 0.15);
-}
+@media (max-width: 899.98px) {
+  /* Nav sheet stays in the layout at all times on mobile — only opacity/transform/visibility
+     toggle, so the open/close is an actual animation rather than an instant display swap. */
+  .site-nav {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    min-height: 100vh;
+    background: var(--color-bg);
+    padding: var(--space-4) var(--space-3);
+    z-index: 20;
+    box-shadow: 0 12px 24px -8px rgba(20, 23, 31, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    pointer-events: none;
+    transition: opacity var(--duration-base) var(--ease-standard),
+                transform var(--duration-base) var(--ease-standard),
+                visibility 0s linear var(--duration-base);
+  }
 
-.site-nav.is-open .site-nav__list {
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--space-3);
-}
+  .site-nav.is-open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    transition: opacity var(--duration-base) var(--ease-standard),
+                transform var(--duration-base) var(--ease-standard),
+                visibility 0s linear 0s;
+  }
 
-.site-nav.is-open .site-nav__cta {
-  margin-left: 0;
-  margin-top: var(--space-1);
-  display: inline-block;
+  .site-nav__list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .site-nav__list li {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .site-nav__list a {
+    display: block;
+    padding-block: var(--space-3);
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 22px;
+  }
+
+  .site-nav__cta {
+    margin-left: 0;
+    margin-top: var(--space-4);
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 @media (min-width: 900px) {
@@ -314,6 +379,7 @@ section {
   text-decoration: none;
   color: var(--color-ink);
   font-size: 15px;
+  transition: color var(--duration-fast) var(--ease-standard);
 }
 
 .site-footer__list a:hover,
@@ -345,8 +411,32 @@ section {
 
 /* ---------- CTA Band ---------- */
 .cta-band {
+  position: relative;
+  overflow: hidden;
   background: var(--color-ink);
   color: #FFFFFF;
+}
+
+/* Very soft, slow-drifting glow — depth without the "shader gradient" flashiness.
+   Purely decorative, so it's excluded from prefers-reduced-motion's global freeze
+   only in the sense that a frozen glow still looks fine (it's just a static blur). */
+.cta-band::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(90, 140, 220, 0.35) 0%, rgba(90, 140, 220, 0) 70%);
+  filter: blur(40px);
+  z-index: 0;
+  animation: cta-glow-drift 14s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes cta-glow-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(-60px, 40px) scale(1.2); }
 }
 
 .cta-band h2 {
@@ -354,6 +444,8 @@ section {
 }
 
 .cta-band__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -381,6 +473,29 @@ section {
   flex-wrap: wrap;
 }
 
+/* All buttons go full-width on small phones, not just the hero/CTA-band
+   ones — side-by-side buttons get cramped/uneven below ~540px, and a
+   button that's full-width in one place but auto-width in another reads
+   as inconsistent. Applies to every .btn sitewide (nav's mobile CTA
+   already sets its own width:100% and isn't affected by this). */
+@media (max-width: 539.98px) {
+  .hero__actions,
+  .cta-band__actions,
+  .section-heading-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cta-band__actions .cta-band__phone {
+    text-align: center;
+  }
+}
+
 .cta-band__phone {
   color: #FFFFFF;
   text-decoration: none;
@@ -399,3 +514,744 @@ section {
 .cta-band .btn-primary:hover {
   background: var(--color-bg-alt);
 }
+
+/* ---------- Hero ----------
+   Full-bleed image with overlaid text, edge-to-edge on mobile. A dark gradient
+   scrim sits between the image and the text so copy stays readable against any
+   photo. The image gets a subtle scroll parallax on desktop only (see main.js) —
+   disabled on mobile (perf/iOS quirks) and for prefers-reduced-motion. */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: 85vh;
+  }
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.08);
+  /* Darkens the whole photo uniformly so text stays legible wherever it
+     lands, on top of the gradient scrim below which does the extra work
+     right behind the copy. */
+  filter: brightness(0.7);
+}
+
+.hero__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(8, 10, 15, 0.9) 0%, rgba(8, 10, 15, 0.6) 55%, rgba(8, 10, 15, 0.25) 100%);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding-block: var(--space-6);
+  max-width: 720px;
+}
+
+.hero h1 {
+  color: #FFFFFF;
+}
+
+.hero__subhead {
+  margin-top: var(--space-3);
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 46ch;
+}
+
+.hero__actions {
+  margin-top: var(--space-4);
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.hero .btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.hero .btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: #FFFFFF;
+}
+
+/* ---------- Trust Bar ----------
+   One consolidated trust/stats band, not two — a separate compact Trust Bar
+   plus a bigger Big Stats section further down said the same things twice.
+   Only numbers go in the stat grid — mixing in a text badge ("FMB ·
+   Checkatrade") at the same giant scale as the numbers wrapped to two lines
+   and threw off row heights on mobile, reading as messy. The accreditation
+   now sits as its own smaller badge line below the three number cards,
+   which also matches how real stat bands are usually built (numbers only). */
+.trust-bar {
+  padding-block: var(--space-6);
+}
+
+@media (min-width: 900px) {
+  .trust-bar {
+    padding-block: 80px;
+  }
+}
+
+.trust-bar__inner {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  .trust-bar__inner {
+    flex-direction: row;
+  }
+}
+
+.trust-bar__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  text-align: center;
+  flex: 1;
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trust-bar__item:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 640px) {
+  .trust-bar__item {
+    padding-block: 0;
+    padding-inline: var(--space-3);
+    border-bottom: none;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .trust-bar__item:first-child {
+    border-left: none;
+  }
+}
+
+.trust-bar__item .icon-circle {
+  margin-bottom: var(--space-1);
+}
+
+.trust-bar__badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: var(--space-4) auto 0;
+  padding: var(--space-2) var(--space-4);
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid var(--color-success-border);
+  border-radius: 999px;
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.trust-bar__badge svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--color-success);
+}
+
+/* ---------- Icon Circle (shared — Trust Bar, Process, Services) ---------- */
+.icon-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.icon-circle svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-circle--sm {
+  width: 32px;
+  height: 32px;
+}
+
+.icon-circle--sm svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- Section heading row (heading + action on one line) ---------- */
+.section-heading-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .section-heading-row {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+}
+
+.section-heading-row p {
+  margin-top: var(--space-1);
+  color: var(--color-ink-muted);
+  max-width: 52ch;
+}
+
+/* ---------- Services Grid ---------- */
+.services-grid h2 {
+  margin-bottom: var(--space-4);
+}
+
+.services-grid__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .services-grid__list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1000px) {
+  .services-grid__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-card {
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(20, 23, 31, 0.04);
+  transition: border-color var(--duration-base) var(--ease-standard),
+              transform var(--duration-base) var(--ease-standard),
+              box-shadow var(--duration-base) var(--ease-standard);
+}
+
+.service-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px -12px rgba(20, 23, 31, 0.18);
+}
+
+/* Photo header — the "What We Do" cards were plain text, flat next to the
+   rest of the now photography-led page. A representative shot per service
+   ties this section into the same visual language as the bento project
+   grid, using images already sourced rather than needing anything new. */
+.service-card__image {
+  height: 140px;
+  overflow: hidden;
+}
+
+.service-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-standard);
+}
+
+.service-card:hover .service-card__image img {
+  transform: scale(1.05);
+}
+
+.service-card__body {
+  padding: var(--space-3);
+}
+
+.service-card__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.service-card__header h3 {
+  margin: 0;
+}
+
+.service-card p {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 15px;
+}
+
+.service-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--space-2);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.service-card__link .arrow {
+  display: inline-block;
+  transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.service-card__link:hover .arrow {
+  transform: translateX(3px);
+}
+
+/* ---------- Project Grid / Project Card ---------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .project-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1000px) {
+  .project-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.project-card {
+  display: block;
+  text-decoration: none;
+  color: var(--color-ink);
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px rgba(20, 23, 31, 0.04);
+  transition: box-shadow var(--duration-base) var(--ease-standard),
+              transform var(--duration-base) var(--ease-standard);
+}
+
+.project-card:hover {
+  box-shadow: 0 12px 20px -12px rgba(20, 23, 31, 0.18);
+  transform: translateY(-3px);
+}
+
+.project-card img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  /* Only the top corners round — the card's own radius + overflow:hidden
+     handles the outer shape, so the image should sit flush into the text
+     block below rather than reading as a separate rounded tile inside it. */
+  border-radius: 0;
+  transition: transform var(--duration-slow) var(--ease-standard);
+}
+
+.project-card:hover img {
+  transform: scale(1.04);
+}
+
+.project-card__body h3 {
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.project-card:hover .project-card__body h3 {
+  color: var(--color-accent);
+}
+
+.project-card__body {
+  padding: var(--space-2) var(--space-2) var(--space-3);
+}
+
+.project-card__body .label {
+  color: var(--color-accent);
+}
+
+.project-card__body h3 {
+  margin-top: 4px;
+  font-size: 18px;
+}
+
+.project-card__body .caption {
+  color: var(--color-ink-muted);
+  font-weight: 400;
+}
+
+/* ---------- Project Grid — Bento variant (Homepage Featured Projects) ----------
+   Kept as a separate modifier rather than changing .project-grid/.project-card
+   directly — the plain equal-column version above stays available for the
+   Projects page listing (Stage 4), which doesn't need one hero tile. */
+.project-grid--bento {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 900px) {
+  .project-grid--bento {
+    grid-template-columns: repeat(4, 1fr);
+    /* Asymmetric rows, not a plain 50/50 split — row 1 (hero tile top +
+       the two small tiles) taller so the small tiles feel substantial
+       rather than squeezed; row 2 (hero tile bottom + the wide tile)
+       shorter, so the wide tile reads as a lower-key supporting piece
+       instead of visually competing with the hero tile above it. */
+    grid-template-rows: 340px 220px;
+    gap: var(--space-4);
+  }
+
+  .project-grid--bento .project-card--bento:nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .project-grid--bento .project-card--bento:nth-child(2) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+  }
+
+  .project-grid--bento .project-card--bento:nth-child(3) {
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+  }
+
+  .project-grid--bento .project-card--bento:nth-child(4) {
+    grid-column: 3 / 5;
+    grid-row: 2 / 3;
+  }
+}
+
+.project-card--bento {
+  position: relative;
+  display: block;
+  min-height: 280px;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+
+.project-card--bento img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  transition: transform var(--duration-slow) var(--ease-standard);
+}
+
+.project-card--bento:hover img {
+  transform: scale(1.05);
+}
+
+.project-card--bento::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(8, 10, 15, 0.85) 0%, rgba(8, 10, 15, 0.15) 55%, rgba(8, 10, 15, 0) 75%);
+}
+
+.project-card--bento__body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  padding: var(--space-3);
+  color: #FFFFFF;
+}
+
+.project-card--bento__body .label {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.project-card--bento__body h3 {
+  margin-top: 4px;
+  font-size: 19px;
+  color: #FFFFFF;
+}
+
+.project-card--bento__body .caption {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* The extra detail line is hidden until hover/focus — the "active grid" touch:
+   tiles reveal a bit more on interaction instead of just zooming the photo. */
+.project-card--bento__detail {
+  display: block;
+  margin-top: var(--space-1);
+  font-size: 13px;
+  font-weight: 500;
+  color: #FFFFFF;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--duration-base) var(--ease-standard),
+              opacity var(--duration-base) var(--ease-standard);
+}
+
+.project-card--bento:hover .project-card--bento__detail,
+.project-card--bento:focus-visible .project-card--bento__detail {
+  max-height: 24px;
+  opacity: 1;
+}
+
+/* ---------- Process Steps (condensed) ---------- */
+.process-condensed p {
+  margin-top: var(--space-1);
+  color: var(--color-ink-muted);
+  max-width: 52ch;
+}
+
+.process-steps {
+  list-style: none;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .process-steps {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Card treatment + a large ghost numeral per step — the numeral does the
+   "this is a sequence" job on its own, more distinctive than a thin
+   connecting line, and gives each step some actual visual weight instead
+   of an icon floating in whitespace. */
+.process-steps li {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: var(--space-4) var(--space-3) var(--space-3);
+  transition: transform var(--duration-base) var(--ease-standard),
+              box-shadow var(--duration-base) var(--ease-standard),
+              border-color var(--duration-base) var(--ease-standard);
+}
+
+.process-steps li:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px -12px rgba(20, 23, 31, 0.18);
+  border-color: var(--color-accent);
+}
+
+.process-steps__number {
+  position: absolute;
+  top: -14px;
+  right: 4px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 1;
+  color: var(--color-bg);
+  -webkit-text-stroke: 1.5px var(--color-border);
+  z-index: 0;
+  user-select: none;
+}
+
+.process-steps .icon-circle,
+.process-steps h3,
+.process-steps p {
+  position: relative;
+  z-index: 1;
+}
+
+.process-steps .icon-circle {
+  margin-bottom: var(--space-2);
+}
+
+.process-steps h3 {
+  font-size: 17px;
+}
+
+.process-steps p {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--color-ink-muted);
+}
+
+/* ---------- Big Stat number/label ----------
+   Reusable typographic treatment for a large stat, used inside the Trust
+   Bar items above. Numbers count up the first time they scroll into view
+   (see main.js), skipped for prefers-reduced-motion (final value shown
+   immediately instead). Kept as its own block rather than folded into
+   .trust-bar so it stays reusable anywhere else a big number is needed. */
+.big-stat__number {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+}
+
+@media (min-width: 768px) {
+  .big-stat__number {
+    font-size: 56px;
+  }
+}
+
+.big-stat__label {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--color-ink-muted);
+  font-size: 15px;
+}
+
+/* ---------- Testimonials ---------- */
+.testimonials__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .testimonials__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.testimonial-card {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  background: var(--color-bg);
+}
+
+.testimonial-card__quote-mark {
+  position: absolute;
+  top: -28px;
+  left: var(--space-2);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 120px;
+  line-height: 1;
+  color: var(--color-bg-alt);
+  z-index: 0;
+  user-select: none;
+}
+
+.testimonial-card__stars {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  gap: 2px;
+  color: var(--color-accent);
+  margin-bottom: var(--space-2);
+}
+
+.testimonial-card__stars svg {
+  width: 16px;
+  height: 16px;
+}
+
+.testimonial-card p {
+  position: relative;
+  z-index: 1;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.testimonial-card__author {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.avatar-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--color-accent);
+  color: #FFFFFF;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.testimonial-card cite {
+  display: block;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.testimonial-card cite .caption {
+  display: block;
+  margin-top: 1px;
+  font-weight: 400;
+  color: var(--color-ink-muted);
+}
+
+/* ---------- Scroll Reveal ----------
+   Apply data-reveal to below-the-fold elements only (never the hero/first
+   viewport — content already visible on load shouldn't fade in). main.js
+   adds .is-visible via IntersectionObserver the first time each element
+   scrolls into view. Falls back to visible immediately if JS/IO unavailable,
+   and prefers-reduced-motion disables the animation globally (see tokens). */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--duration-slow) var(--ease-standard),
+              transform var(--duration-slow) var(--ease-standard);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-delay-3 { transition-delay: 0.24s; }
+.reveal-delay-4 { transition-delay: 0.32s; }
