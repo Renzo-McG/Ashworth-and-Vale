@@ -26,7 +26,8 @@ If this guide, a vault brief, and the current implementation disagree:
 - **Typical project value:** Approximately £30k–£200k+
 - **Site purpose:** Demonstrate Akari Studio's ability to create a polished, credible website for a design-and-build firm
 - **Technology:** Static HTML, shared CSS, and vanilla JavaScript; no framework or build step
-- **Repository:** `github.com/Renzo-McG/AkariStudio`
+- **Repository:** `github.com/Renzo-McG/Ashworth-and-Vale`
+- **Rolling preview:** `https://renzo-mcg.github.io/Ashworth-and-Vale/`
 - **Local site root:** `AkariStudios/akari-studio-site/`
 
 The desired impression is: **what if Google or Apple approached residential design and build?** That means clean, calm, modern, precise, spacious, and quietly premium—not cold, corporate, trendy for its own sake, or visually overworked.
@@ -276,8 +277,8 @@ Do not assess the site solely by opening HTML directly from disk; use the local 
 |---|---|---|
 | Home | `index.html` | Approved and committed |
 | Services | `services.html` | Approved and committed |
-| Projects | `projects.html` | Built, awaiting review, and currently uncommitted |
-| Project detail | `project-detail.html` | Built, awaiting review, and currently uncommitted |
+| Projects | `projects.html` | Approved, committed, pushed, and deployed |
+| Project detail | `project-detail.html` | Approved, committed, pushed, and deployed |
 | Process | `process.html` | Not yet present |
 | FAQ | `faq.html` | Not yet present |
 | Contact | `contact.html` | Not yet present |
@@ -287,9 +288,9 @@ Supporting preview/test pages:
 - `components-preview.html`
 - `test.html`
 
-Current committed milestone: `192d425` — Stage 3, Services Page.
+Current build milestone: `76a9ecd` — Stages 4–5 plus the imagery overhaul.
 
-Important: `AkariStudios/Demo Site/Build Workstream.md` currently reports Stages 4 and 5 as “Not started,” but Claude has confirmed both are built and awaiting review. Their HTML plus shared CSS and JavaScript changes remain uncommitted. The live working tree must be inspected before acting. The tracker should be corrected to “Built — awaiting review,” but neither stage should be marked approved until Lawrence has reviewed it.
+Rolling-preview deployment: `8fda8d6`. GitHub Pages deploys production HTML and assets from `main` through `.github/workflows/deploy-pages.yml`. Internal test pages and Markdown are excluded. Process, FAQ, and Contact remain unbuilt and currently return 404 in the preview; start with Stage 6 — Process Page.
 
 ## Sources of truth
 
@@ -379,10 +380,12 @@ Use this section to prevent decisions from being buried in an assistant conversa
 
 | Date | Raised by | Proposal or discrepancy | Status / decision |
 |---|---|---|---|
-| 23 Jul 2026 | Codex | Build Workstream says Stages 4–5 are not started, while `projects.html`, `project-detail.html`, shared CSS, and shared JS contain uncommitted work. | Resolved: Claude confirmed both are built and awaiting review; neither is approved or committed |
+| 23 Jul 2026 | Codex | Build Workstream says Stages 4–5 are not started, while `projects.html`, `project-detail.html`, shared CSS, and shared JS contain uncommitted work. | Resolved: both stages approved and committed in `76a9ecd` |
 | 23 Jul 2026 | Codex | Review this guide against Claude's current implementation context and suggest corrections, omissions, or rules that are too restrictive. | Resolved: Claude agreed to the guide; five documentation improvements approved by Lawrence and incorporated |
-| 23 Jul 2026 | Claude | Project Detail banner title currently uses 34px/48px rather than the agreed inner-page 40px/56px scale. | Open: code correction recommended; no website code changed as part of this guide update |
-| 23 Jul 2026 | Claude | Existing approved pages do not yet lazy-load below-the-fold images. | Open: address consistently during Stage 9 QA rather than piecemeal |
+| 23 Jul 2026 | Claude | Project Detail banner title used 34px/48px rather than the agreed inner-page 40px/56px scale. | Resolved in Stage 5 review |
+| 23 Jul 2026 | Claude | Existing approved pages did not lazy-load below-the-fold images. | Resolved during imagery overhaul; explicit dimensions and lazy loading added sitewide where appropriate |
+| 23 Jul 2026 | Codex | Repository initially displayed work-account commit attribution. | Resolved: history corrected to `Renzo-McG`; repository-local and Renzo-Space path-specific personal Git identity configured |
+| 23 Jul 2026 | Codex | Rolling preview requested before Stages 6–8 exist. | Accepted: preview is live; missing future pages intentionally return 404 until built |
 
 ## Change control for this guide
 
