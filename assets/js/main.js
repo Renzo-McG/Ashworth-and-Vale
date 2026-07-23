@@ -119,4 +119,50 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     });
   }
+
+  // Services page quick-nav scrollspy — highlights whichever service block
+  // is currently in view. rootMargin shrinks the observed viewport to a thin
+  // band near the top (just below the two sticky bars) rather than the
+  // whole screen, so "active" reflects what's actually under the quick nav,
+  // not merely on-screen anywhere.
+  var quicknavLinks = document.querySelectorAll('.service-quicknav__link');
+  var serviceSections = document.querySelectorAll('.service-detail');
+
+  if (quicknavLinks.length && serviceSections.length && 'IntersectionObserver' in window) {
+    var quicknavObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var link = document.querySelector('.service-quicknav__link[data-target="' + entry.target.id + '"]');
+        if (!link) return;
+        quicknavLinks.forEach(function (l) { l.classList.remove('is-active'); });
+        link.classList.add('is-active');
+        // Bar scrolls horizontally on mobile (more pills than fit on screen)
+        // — bring the newly-active pill into view as you scroll through
+        // sections, rather than leaving it hidden off to the side.
+        link.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+    serviceSections.forEach(function (section) { quicknavObserver.observe(section); });
+  }
+
+  // FAQ accordion (condensed, Services page) — collapsed by default, one
+  // open at a time. The collapse animation itself is pure CSS (grid-rows
+  // trick); this just toggles the state that CSS reads.
+  document.querySelectorAll('.faq-condensed__question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-condensed__item');
+      var isOpen = item.classList.contains('is-open');
+
+      item.parentElement.querySelectorAll('.faq-condensed__item').forEach(function (el) {
+        el.classList.remove('is-open');
+        el.querySelector('.faq-condensed__question').setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 });
