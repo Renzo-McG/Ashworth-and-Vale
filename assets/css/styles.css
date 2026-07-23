@@ -866,6 +866,15 @@ section {
               transform var(--duration-base) var(--ease-standard);
 }
 
+/* The [hidden] attribute (used by the Projects page filter) would
+   otherwise lose to the `display: block` above — an author rule always
+   beats the browser's default [hidden] behaviour regardless of
+   specificity, since UA styles sit below any author style in the
+   cascade. This restores it. */
+.project-card[hidden] {
+  display: none;
+}
+
 .project-card:hover {
   box-shadow: 0 12px 20px -12px rgba(20, 23, 31, 0.18);
   transform: translateY(-3px);
@@ -910,6 +919,79 @@ section {
 .project-card__body .caption {
   color: var(--color-ink-muted);
   font-weight: 400;
+}
+
+/* Non-linked cards (Projects page listing) — only one demo project has a
+   full detail page; the other 5 are proof-of-range cards with nowhere to
+   go yet. Rendered as plain <div>s rather than <a>s, so this strips the
+   hover lift/zoom/cursor that would otherwise (misleadingly) suggest
+   they're clickable. */
+.project-card--static {
+  cursor: default;
+}
+
+.project-card--static:hover {
+  box-shadow: 0 1px 2px rgba(20, 23, 31, 0.04);
+  transform: none;
+}
+
+.project-card--static:hover img {
+  transform: none;
+}
+
+.project-card--static:hover .project-card__body h3 {
+  color: var(--color-ink);
+}
+
+/* ---------- Project Filters (Projects page) ----------
+   Same pill language as the Services page's quick nav, for a consistent
+   "this is how Ashworth & Vale does filter/nav chips" feel across pages —
+   not sticky here though, this is a one-off filter row, not a scrollspy. */
+.project-filters {
+  padding-block: var(--space-4);
+}
+
+.project-filters__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.project-filters__btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-ink-muted);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              border-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
+}
+
+.project-filters__btn:hover {
+  border-color: var(--color-ink);
+  color: var(--color-ink);
+}
+
+.project-filters__btn.is-active {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+/* ---------- Project Listing (Projects page) ---------- */
+.project-listing {
+  padding-top: 0;
+}
+
+.project-listing__empty {
+  padding-block: var(--space-4);
+  color: var(--color-ink-muted);
+  text-align: center;
 }
 
 /* ---------- Project Grid — Bento variant (Homepage Featured Projects) ----------
@@ -1619,6 +1701,448 @@ section {
 .faq-condensed__answer p {
   padding-bottom: var(--space-3);
   color: var(--color-ink-muted);
+}
+
+/* ---------- Project Header (Project Detail page) ----------
+   Same image + scrim + overlay-text language as the Services page's
+   Page Intro, shorter still (35/42vh) since this header only needs to
+   carry a breadcrumb, type, title and location — no lead paragraph. */
+.project-header {
+  position: relative;
+  min-height: 35vh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  color: #FFFFFF;
+}
+
+@media (min-width: 900px) {
+  .project-header {
+    min-height: 42vh;
+  }
+}
+
+.project-header__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.project-header__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.project-header__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(0deg, rgba(8, 10, 15, 0.85) 0%, rgba(8, 10, 15, 0.55) 55%, rgba(8, 10, 15, 0.2) 100%);
+}
+
+.project-header__content {
+  position: relative;
+  z-index: 2;
+  padding-block: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .project-header__content {
+    padding-block: var(--space-6);
+  }
+}
+
+.project-header__breadcrumb {
+  margin-bottom: var(--space-3);
+}
+
+/* A frosted pill rather than plain text — the same visual language as the
+   Before/After labels — so it reads as a clear, tappable control against
+   the photo instead of blending into the scrim. */
+.project-header__breadcrumb-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px 8px 12px;
+  border-radius: 999px;
+  background: rgba(8, 10, 15, 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.project-header__breadcrumb-link svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.project-header__breadcrumb-link:hover {
+  background: rgba(8, 10, 15, 0.65);
+}
+
+.project-header__type {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Same banner-title scale as .page-intro__title (Services/Projects intro)
+   — kept in sync deliberately, not the Homepage Hero's larger H1 scale,
+   which tested as too big for a shorter, non-hero band. */
+.project-header__title {
+  margin-top: var(--space-1);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+}
+
+@media (min-width: 768px) {
+  .project-header__title {
+    font-size: 56px;
+  }
+}
+
+.project-header__location {
+  margin-top: var(--space-1);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Project Stats (Project Detail page) ----------
+   Same divider-over-box treatment as the Trust Bar and Service Detail
+   meta rows — small repeated label+value pairs, not boxed cards. */
+.project-stats {
+  padding-block: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-stats__list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 640px) {
+  .project-stats__list {
+    flex-direction: row;
+  }
+}
+
+.project-stats__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.project-stats__item:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 640px) {
+  .project-stats__item {
+    padding-block: 0;
+    padding-inline: var(--space-3);
+    border-bottom: none;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .project-stats__item:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+.project-stats__item .label {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.project-stats__item p {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ---------- Project Gallery Carousel (Project Detail page) ----------
+   Horizontal scroll-snap track — native swipe/drag on touch and trackpad
+   for free, no JS needed for the actual sliding. Prev/next buttons and
+   dots are a progressive-enhancement layer on top (main.js), and hide
+   themselves entirely when there's only one photo, since there's nothing
+   to navigate to. One slide = 100% of the track width, so it works
+   whether there's 1 photo or 10 without layout changes either way. */
+.project-gallery h2 {
+  margin-bottom: var(--space-3);
+}
+
+.gallery-carousel {
+  position: relative;
+}
+
+.gallery-carousel__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  border-radius: 12px;
+}
+
+.gallery-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-carousel__slide {
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  margin: 0;
+}
+
+.gallery-carousel__slide img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.gallery-carousel__slide figcaption {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+.gallery-carousel__nav {
+  position: absolute;
+  top: calc(50% - 20px - 14px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #FFFFFF;
+  color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(8, 10, 15, 0.2);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-standard),
+              opacity var(--duration-fast) var(--ease-standard);
+}
+
+.gallery-carousel__nav:hover {
+  transform: scale(1.06);
+}
+
+.gallery-carousel__nav:disabled,
+.gallery-carousel__nav[hidden] {
+  display: none;
+}
+
+.gallery-carousel__nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+.gallery-carousel__nav--prev {
+  left: var(--space-2);
+}
+
+.gallery-carousel__nav--next {
+  right: var(--space-2);
+}
+
+.gallery-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: var(--space-3);
+}
+
+.gallery-carousel__dots[hidden] {
+  display: none;
+}
+
+.gallery-carousel__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-border);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+}
+
+.gallery-carousel__dot.is-active {
+  background: var(--color-accent);
+  transform: scale(1.2);
+}
+
+/* ---------- Before / After Slider (Project Detail page) ----------
+   "One of the strongest conversion tools for this niche" per the
+   Component Library — drag to reveal, works with mouse, touch, and
+   keyboard. Both images sit stacked at full frame size; the "before"
+   image is clipped with clip-path rather than resizing a wrapper, which
+   keeps both images the same scale as the handle moves (see main.js).
+   No transition on the clip/handle position during an active drag — it
+   needs to track the pointer 1:1, a lag would feel unresponsive — but a
+   brief transition is added for the keyboard-nudge and intro-hint cases,
+   where a bit of ease reads as polish rather than latency. */
+.before-after {
+  margin-top: var(--space-4);
+}
+
+.before-after__frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 4 / 3;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+@media (min-width: 768px) {
+  .before-after__frame {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.before-after__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.before-after__img--before {
+  clip-path: inset(0 50% 0 0);
+}
+
+.before-after__label {
+  position: absolute;
+  top: var(--space-2);
+  z-index: 2;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(8, 10, 15, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.before-after__label--before {
+  left: var(--space-2);
+}
+
+.before-after__label--after {
+  right: var(--space-2);
+}
+
+.before-after__handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  z-index: 3;
+  width: 44px;
+  margin-left: -22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+
+.before-after__handle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  margin-left: -1px;
+  background: #FFFFFF;
+  box-shadow: 0 0 0 1px rgba(8, 10, 15, 0.15);
+}
+
+.before-after__grip {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: var(--color-accent);
+  box-shadow: 0 4px 12px rgba(8, 10, 15, 0.25);
+}
+
+.before-after__grip svg {
+  width: 18px;
+  height: 18px;
+}
+
+.before-after__handle:focus-visible .before-after__grip {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Only added while the intro hint or a keyboard nudge is animating —
+   see main.js. Not present during an active pointer drag. */
+.before-after--animating .before-after__handle,
+.before-after--animating .before-after__img--before {
+  transition: left var(--duration-slow) var(--ease-standard),
+              clip-path var(--duration-slow) var(--ease-standard);
+}
+
+.before-after-section__lead {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  max-width: 56ch;
+}
+
+.before-after-section__caption {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+/* ---------- Project Narrative (Project Detail page) ---------- */
+.project-narrative__inner {
+  max-width: 72ch;
+}
+
+.project-narrative__inner p {
+  color: var(--color-ink-muted);
+}
+
+.project-narrative__inner p + p {
+  margin-top: var(--space-3);
+}
+
+/* ---------- Project Testimonial (Project Detail page) ----------
+   Reuses the Homepage's .testimonial-card component as-is rather than a
+   one-off pattern — a single instance, centred, rather than a grid item. */
+.project-testimonial__card {
+  max-width: 640px;
+  margin-inline: auto;
 }
 
 /* ---------- Scroll Reveal ----------

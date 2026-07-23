@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Work | Ashworth &amp; Vale</title>
+  <meta name="description" content="Extensions, renovations, and remodels completed by Ashworth & Vale for homeowners across Surrey and South West London.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+
+      <nav class="site-nav" id="site-nav">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary site-nav__cta">Start Your Project</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Page Intro -->
+    <section class="page-intro">
+      <div class="page-intro__media">
+        <img src="assets/images/projects-intro.jpg" alt="" width="1920" height="1071">
+      </div>
+      <div class="page-intro__scrim"></div>
+      <div class="container page-intro__content">
+        <h1 class="page-intro__title">Our Work</h1>
+        <p class="page-intro__lead">A selection of extensions, renovations, and remodels we've completed for homeowners across Surrey and South West London.</p>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="project-filters">
+      <div class="container">
+        <div class="project-filters__list" role="group" aria-label="Filter projects by type">
+          <button class="project-filters__btn is-active" data-filter="all" aria-pressed="true">All</button>
+          <button class="project-filters__btn" data-filter="extensions" aria-pressed="false">Extensions</button>
+          <button class="project-filters__btn" data-filter="renovations" aria-pressed="false">Full Renovations</button>
+          <button class="project-filters__btn" data-filter="kitchen-bathroom" aria-pressed="false">Kitchen &amp; Bathroom</button>
+          <button class="project-filters__btn" data-filter="loft-conversions" aria-pressed="false">Loft Conversions</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Grid -->
+    <section class="project-listing">
+      <div class="container">
+        <div class="project-grid" id="project-grid">
+          <a href="project-detail.html" class="project-card" data-category="extensions" data-reveal>
+            <img src="assets/images/kitchen-after.jpg" alt="Bright renovated kitchen-diner extension with island, Wimbledon" loading="lazy" width="1200" height="805">
+            <div class="project-card__body">
+              <p class="label">Extension</p>
+              <h3>Wraparound Extension</h3>
+              <p class="caption">Wimbledon</p>
+            </div>
+          </a>
+          <div class="project-card project-card--static" data-category="extensions" data-reveal>
+            <img src="assets/images/side-return-extension.jpg" alt="Single-storey side-return extension with dark aluminium glazing, Kingston" loading="lazy" width="1600" height="1194">
+            <div class="project-card__body">
+              <p class="label">Extension</p>
+              <h3>Side-Return Extension</h3>
+              <p class="caption">Kingston</p>
+            </div>
+          </div>
+          <div class="project-card project-card--static" data-category="loft-conversions" data-reveal>
+            <img src="assets/images/loft.jpg" alt="Bright loft conversion bedroom with skylights and exposed beam, Richmond" loading="lazy" width="1600" height="1194">
+            <div class="project-card__body">
+              <p class="label">Loft Conversion</p>
+              <h3>Loft Conversion</h3>
+              <p class="caption">Richmond</p>
+            </div>
+          </div>
+          <div class="project-card project-card--static" data-category="kitchen-bathroom" data-reveal>
+            <img src="assets/images/bathroom.jpg" alt="Renovated bathroom with freestanding bath and brass fixtures, Weybridge" loading="lazy" width="1600" height="1194">
+            <div class="project-card__body">
+              <p class="label">Kitchen &amp; Bathroom</p>
+              <h3>Bathroom Remodel</h3>
+              <p class="caption">Weybridge</p>
+            </div>
+          </div>
+          <div class="project-card project-card--static" data-category="kitchen-bathroom" data-reveal>
+            <img src="assets/images/kitchen-remodel.jpg" alt="Newly remodelled kitchen with navy cabinetry and oak shelving, Guildford" loading="lazy" width="1600" height="1194">
+            <div class="project-card__body">
+              <p class="label">Kitchen &amp; Bathroom</p>
+              <h3>Kitchen Remodel</h3>
+              <p class="caption">Guildford</p>
+            </div>
+          </div>
+          <div class="project-card project-card--static" data-category="renovations" data-reveal>
+            <img src="assets/images/full-renovation-exterior.jpg" alt="Fully renovated detached family home with refreshed grey render and new windows, Esher" loading="lazy" width="1600" height="1194">
+            <div class="project-card__body">
+              <p class="label">Full Renovation</p>
+              <h3>Full Renovation</h3>
+              <p class="caption">Esher</p>
+            </div>
+          </div>
+        </div>
+        <p class="project-listing__empty" id="project-empty" hidden>No projects in this category yet — check back soon, or get in touch to discuss your project directly.</p>
+      </div>
+    </section>
+
+    <!-- CTA Band -->
+    <section class="cta-band">
+      <div class="container cta-band__inner">
+        <div>
+          <h2>Like what you see?</h2>
+          <p>Let's talk about what's possible for your home.</p>
+        </div>
+        <div class="cta-band__actions">
+          <a href="contact.html" class="btn btn-primary">Start Your Project</a>
+          <a href="tel:01483000000" class="cta-band__phone">01483 000 000</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__col">
+        <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+        <p class="site-footer__tagline">Design &amp; build for homeowners across Surrey and South West London.</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Navigate</p>
+        <ul class="site-footer__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Contact</p>
+        <p><a href="tel:01483000000">01483 000 000</a></p>
+        <p><a href="mailto:hello@ashworthandvale.co.uk">hello@ashworthandvale.co.uk</a></p>
+        <p>Guildford, Surrey</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Coverage</p>
+        <p class="site-footer__coverage">Surrey &middot; South West London &middot; Kingston &middot; Wimbledon &middot; Richmond &middot; Esher &middot; Weybridge &middot; Guildford</p>
+      </div>
+    </div>
+    <div class="container site-footer__bottom">
+      <p class="caption">FMB Accredited &middot; Checkatrade Verified</p>
+      <p class="caption">&copy; 2026 Ashworth &amp; Vale. All rights reserved. &middot; Built by Akari Studio</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

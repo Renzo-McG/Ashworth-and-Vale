@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wraparound Extension, Wimbledon | Ashworth &amp; Vale</title>
+  <meta name="description" content="A single-storey wraparound extension in Wimbledon that turned a small, dark kitchen into one open kitchen-diner — see the before and after.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+
+      <nav class="site-nav" id="site-nav">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary site-nav__cta">Start Your Project</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Project Header -->
+    <section class="project-header">
+      <div class="project-header__media">
+        <img src="assets/images/hero.jpg" alt="" width="2000" height="1116">
+      </div>
+      <div class="project-header__scrim"></div>
+      <div class="container project-header__content">
+        <p class="project-header__breadcrumb">
+          <a href="projects.html" class="project-header__breadcrumb-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Our Work
+          </a>
+        </p>
+        <p class="label project-header__type">Extension</p>
+        <h1 class="project-header__title">Wraparound Extension</h1>
+        <p class="project-header__location">Wimbledon</p>
+      </div>
+    </section>
+
+    <section class="project-stats">
+      <div class="container project-stats__list">
+        <div class="project-stats__item">
+          <span class="icon-circle icon-circle--sm" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          </span>
+          <div>
+            <span class="label">Build time</span>
+            <p>12-week build</p>
+          </div>
+        </div>
+        <div class="project-stats__item">
+          <span class="icon-circle icon-circle--sm" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+          </span>
+          <div>
+            <span class="label">Type of work</span>
+            <p>Single-storey wraparound</p>
+          </div>
+        </div>
+        <div class="project-stats__item">
+          <span class="icon-circle icon-circle--sm" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          </span>
+          <div>
+            <span class="label">Scope</span>
+            <p>Kitchen-diner reconfiguration</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Before / After -->
+    <section class="before-after-section section-alt">
+      <div class="container">
+        <h2 data-reveal>Before &amp; After</h2>
+        <p class="before-after-section__lead" data-reveal>Drag the slider to compare the original kitchen with the finished wraparound extension.</p>
+        <div class="before-after" data-reveal reveal-delay-1>
+          <div class="before-after__frame" id="before-after-frame">
+            <img class="before-after__img before-after__img--after" src="assets/images/kitchen-after.jpg" alt="The finished wraparound extension kitchen-diner" loading="lazy" width="1200" height="805">
+            <img class="before-after__img before-after__img--before" src="assets/images/kitchen-before.jpg" alt="The original kitchen before the extension" loading="lazy" width="1200" height="805">
+            <span class="before-after__label before-after__label--before">Before</span>
+            <span class="before-after__label before-after__label--after">After</span>
+            <div class="before-after__handle" id="before-after-handle" role="slider" tabindex="0" aria-label="Drag to compare the before and after photos" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+              <span class="before-after__grip" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6-6 6 6 6"/><path d="m15 6 6 6-6 6"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+        <p class="before-after-section__caption">The original kitchen (left) vs. the finished wraparound extension (right)</p>
+      </div>
+    </section>
+
+    <!-- Narrative -->
+    <section class="project-narrative">
+      <div class="container project-narrative__inner">
+        <p data-reveal>The brief was simple to say and harder to deliver: more space in the kitchen without swallowing the garden. The existing kitchen was small, dark, and cut off from the rest of the ground floor — the kind of layout that made cooking feel like a chore rather than something to enjoy.</p>
+        <p data-reveal>We designed a single-storey wraparound extension that reworks the side return and rear of the house into one open kitchen-diner, with full-width bi-fold doors onto the garden. A structural steel beam let us remove the old dividing wall entirely, so the space now reads as one room rather than three cramped ones.</p>
+        <p data-reveal>The build ran for 12 weeks, on the timeline we quoted at the outset. The family stayed in the house throughout, with dust and disruption kept to the working area.</p>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="project-gallery">
+      <div class="container">
+        <h2 data-reveal>Finished Gallery</h2>
+        <div class="gallery-carousel" data-reveal reveal-delay-1>
+          <div class="gallery-carousel__track" id="gallery-track">
+            <figure class="gallery-carousel__slide">
+              <img src="assets/images/kitchen-detail.jpg" alt="The kitchen island, the heart of the new open-plan layout" loading="lazy" width="1600" height="1194">
+              <figcaption>The island — the heart of the new layout</figcaption>
+            </figure>
+            <figure class="gallery-carousel__slide">
+              <img src="assets/images/wraparound-material-detail.jpg" alt="Close detail of the stone worktop, shaker cabinetry, and brushed-metal hardware" loading="lazy" width="1600" height="1194">
+              <figcaption>Stone, shaker cabinetry, and brushed metal — the material palette up close</figcaption>
+            </figure>
+          </div>
+          <button class="gallery-carousel__nav gallery-carousel__nav--prev" id="gallery-prev" aria-label="Previous photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
+          </button>
+          <button class="gallery-carousel__nav gallery-carousel__nav--next" id="gallery-next" aria-label="Next photo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+          </button>
+          <div class="gallery-carousel__dots" id="gallery-dots"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="project-testimonial section-alt">
+      <div class="container">
+        <blockquote class="testimonial-card project-testimonial__card" data-reveal>
+          <span class="testimonial-card__quote-mark" aria-hidden="true">&ldquo;</span>
+          <div class="testimonial-card__stars" role="img" aria-label="5 out of 5 stars">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1Z"/></svg>
+          </div>
+          <p>&ldquo;We'd looked at extending for years but never trusted anyone enough to commit. Ashworth &amp; Vale were upfront about cost and timeline from day one, and delivered exactly what they promised.&rdquo;</p>
+          <div class="testimonial-card__author">
+            <span class="avatar-circle" aria-hidden="true">HO</span>
+            <cite>H. Osei<span class="caption">Wimbledon</span></cite>
+          </div>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- CTA Band -->
+    <section class="cta-band">
+      <div class="container cta-band__inner">
+        <div>
+          <h2>Want a space like this?</h2>
+          <p>Get in touch and tell us what you have in mind.</p>
+        </div>
+        <div class="cta-band__actions">
+          <a href="contact.html" class="btn btn-primary">Start Your Project</a>
+          <a href="tel:01483000000" class="cta-band__phone">01483 000 000</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__col">
+        <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+        <p class="site-footer__tagline">Design &amp; build for homeowners across Surrey and South West London.</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Navigate</p>
+        <ul class="site-footer__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Contact</p>
+        <p><a href="tel:01483000000">01483 000 000</a></p>
+        <p><a href="mailto:hello@ashworthandvale.co.uk">hello@ashworthandvale.co.uk</a></p>
+        <p>Guildford, Surrey</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Coverage</p>
+        <p class="site-footer__coverage">Surrey &middot; South West London &middot; Kingston &middot; Wimbledon &middot; Richmond &middot; Esher &middot; Weybridge &middot; Guildford</p>
+      </div>
+    </div>
+    <div class="container site-footer__bottom">
+      <p class="caption">FMB Accredited &middot; Checkatrade Verified</p>
+      <p class="caption">&copy; 2026 Ashworth &amp; Vale. All rights reserved. &middot; Built by Akari Studio</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

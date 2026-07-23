@@ -165,4 +165,184 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // Projects page filter — instant show/hide, no page reload (the page's
+  // own UX note calls for filtering to feel instant, so no fade/animation
+  // here is a deliberate choice, not a corner cut).
+  var filterBtns = document.querySelectorAll('.project-filters__btn');
+  var filterCards = document.querySelectorAll('#project-grid .project-card');
+  var emptyMsg = document.getElementById('project-empty');
+
+  if (filterBtns.length && filterCards.length) {
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var filter = btn.getAttribute('data-filter');
+
+        filterBtns.forEach(function (b) {
+          b.classList.remove('is-active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        var visibleCount = 0;
+        filterCards.forEach(function (card) {
+          var matches = filter === 'all' || card.getAttribute('data-category') === filter;
+          card.hidden = !matches;
+          if (matches) visibleCount++;
+        });
+
+        if (emptyMsg) emptyMsg.hidden = visibleCount > 0;
+      });
+    });
+  }
+
+  // Before/After slider (Project Detail page) — drag to reveal via Pointer
+  // Events (mouse, touch, and pen in one code path), keyboard-accessible
+  // via arrow keys, plus a one-time subtle hint animation the first time
+  // it scrolls into view so it reads as "drag me," not a static image.
+  var beforeAfterFrame = document.getElementById('before-after-frame');
+  var beforeAfterHandle = document.getElementById('before-after-handle');
+
+  if (beforeAfterFrame && beforeAfterHandle) {
+    var beforeAfterImg = beforeAfterFrame.querySelector('.before-after__img--before');
+    var beforeAfterWrap = beforeAfterFrame.closest('.before-after');
+    var beforeAfterDragging = false;
+
+    var setBeforeAfterPosition = function (percent) {
+      percent = Math.max(0, Math.min(100, percent));
+      beforeAfterImg.style.clipPath = 'inset(0 ' + (100 - percent) + '% 0 0)';
+      beforeAfterHandle.style.left = percent + '%';
+      beforeAfterHandle.setAttribute('aria-valuenow', Math.round(percent));
+    };
+
+    var percentFromEvent = function (e) {
+      var rect = beforeAfterFrame.getBoundingClientRect();
+      return (e.clientX - rect.left) / rect.width * 100;
+    };
+
+    // No transition class during an active drag — the divider needs to
+    // track the pointer exactly, a lag here would feel unresponsive.
+    beforeAfterFrame.addEventListener('pointerdown', function (e) {
+      beforeAfterDragging = true;
+      beforeAfterWrap.classList.remove('before-after--animating');
+      setBeforeAfterPosition(percentFromEvent(e));
+    });
+
+    window.addEventListener('pointermove', function (e) {
+      if (!beforeAfterDragging) return;
+      setBeforeAfterPosition(percentFromEvent(e));
+    });
+
+    window.addEventListener('pointerup', function () {
+      beforeAfterDragging = false;
+    });
+
+    beforeAfterHandle.addEventListener('keydown', function (e) {
+      var current = parseFloat(beforeAfterHandle.style.left) || 50;
+      var moved = true;
+
+      if (e.key === 'ArrowLeft') {
+        setBeforeAfterPosition(current - 5);
+      } else if (e.key === 'ArrowRight') {
+        setBeforeAfterPosition(current + 5);
+      } else if (e.key === 'Home') {
+        setBeforeAfterPosition(0);
+      } else if (e.key === 'End') {
+        setBeforeAfterPosition(100);
+      } else {
+        moved = false;
+      }
+
+      if (moved) {
+        e.preventDefault();
+        beforeAfterWrap.classList.add('before-after--animating');
+      }
+    });
+
+    // Skipped entirely for prefers-reduced-motion — this is automatic
+    // motion the page initiates, not motion the user asked for by
+    // dragging, so the sitewide reduced-motion rule applies to it.
+    if (!reducedMotion && 'IntersectionObserver' in window) {
+      var beforeAfterHintObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          beforeAfterHintObserver.unobserve(entry.target);
+          beforeAfterWrap.classList.add('before-after--animating');
+          setTimeout(function () { setBeforeAfterPosition(38); }, 400);
+          setTimeout(function () { setBeforeAfterPosition(62); }, 1000);
+          setTimeout(function () {
+            setBeforeAfterPosition(50);
+            setTimeout(function () { beforeAfterWrap.classList.remove('before-after--animating'); }, 700);
+          }, 1600);
+        });
+      }, { threshold: 0.4 });
+
+      beforeAfterHintObserver.observe(beforeAfterWrap);
+    }
+  }
+
+  // Gallery carousel (Project Detail page) — the track itself is a plain
+  // scroll-snap element, so swipe/drag works natively with no JS at all.
+  // This just layers optional prev/next buttons and dots on top, and
+  // hides them completely when there's only one photo to show.
+  var galleryTrack = document.getElementById('gallery-track');
+
+  if (galleryTrack) {
+    var gallerySlides = galleryTrack.querySelectorAll('.gallery-carousel__slide');
+    var galleryPrev = document.getElementById('gallery-prev');
+    var galleryNext = document.getElementById('gallery-next');
+    var galleryDotsWrap = document.getElementById('gallery-dots');
+
+    if (gallerySlides.length > 1) {
+      var goToGallerySlide = function (index) {
+        index = Math.max(0, Math.min(gallerySlides.length - 1, index));
+        gallerySlides[index].scrollIntoView({
+          behavior: reducedMotion ? 'auto' : 'smooth',
+          inline: 'center',
+          block: 'nearest'
+        });
+      };
+
+      gallerySlides.forEach(function (slide, i) {
+        var dot = document.createElement('button');
+        dot.className = 'gallery-carousel__dot';
+        dot.setAttribute('aria-label', 'Go to photo ' + (i + 1) + ' of ' + gallerySlides.length);
+        dot.addEventListener('click', function () { goToGallerySlide(i); });
+        galleryDotsWrap.appendChild(dot);
+      });
+
+      var galleryDots = galleryDotsWrap.querySelectorAll('.gallery-carousel__dot');
+
+      var currentGalleryIndex = function () {
+        return Math.round(galleryTrack.scrollLeft / galleryTrack.clientWidth);
+      };
+
+      var updateGalleryUI = function () {
+        var index = Math.max(0, Math.min(gallerySlides.length - 1, currentGalleryIndex()));
+        galleryDots.forEach(function (d, i) { d.classList.toggle('is-active', i === index); });
+        galleryPrev.disabled = index === 0;
+        galleryNext.disabled = index === gallerySlides.length - 1;
+      };
+
+      galleryPrev.addEventListener('click', function () { goToGallerySlide(currentGalleryIndex() - 1); });
+      galleryNext.addEventListener('click', function () { goToGallerySlide(currentGalleryIndex() + 1); });
+
+      var galleryScrollTicking = false;
+      galleryTrack.addEventListener('scroll', function () {
+        if (galleryScrollTicking) return;
+        galleryScrollTicking = true;
+        window.requestAnimationFrame(function () {
+          updateGalleryUI();
+          galleryScrollTicking = false;
+        });
+      }, { passive: true });
+
+      updateGalleryUI();
+    } else {
+      if (galleryPrev) galleryPrev.hidden = true;
+      if (galleryNext) galleryNext.hidden = true;
+      if (galleryDotsWrap) galleryDotsWrap.hidden = true;
+    }
+  }
 });
