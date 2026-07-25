@@ -7,6 +7,7 @@
   /* Colour — "what if Google/Apple did build and design": bright, cool, one confident accent */
   --color-bg: #FFFFFF;
   --color-bg-alt: #F4F6F9;
+  --color-bg-warm: #F5F3EE;
   --color-ink: #14171F;
   --color-ink-muted: #5B6472;
   --color-accent: #2955A3;
@@ -17,6 +18,13 @@
   --color-success: #1D8A5F;
   --color-success-bg: #E9F7F0;
   --color-success-border: #BFE6D3;
+
+  /* Form validation only — same three-tier pattern as --color-success above,
+     kept to that one use. Not in the original locked palette; added for the
+     Contact page's inline field errors, logged in PROJECT-GUIDE.md. */
+  --color-danger: #B3261E;
+  --color-danger-bg: #FCEBEA;
+  --color-danger-border: #F3C6C2;
 
   /* Type — single sans-serif throughout, no serif pairing */
   --font-heading: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -240,6 +248,10 @@ section {
   color: var(--color-accent);
 }
 
+.site-nav__list a[aria-current="page"] {
+  color: var(--color-accent);
+}
+
 .site-nav__cta {
   margin-left: var(--space-4);
 }
@@ -315,10 +327,27 @@ section {
 
   .site-nav__list a {
     display: block;
+    position: relative;
     padding-block: var(--space-3);
     font-family: var(--font-heading);
     font-weight: 600;
     font-size: 22px;
+  }
+
+  .site-nav__list a[aria-current="page"] {
+    padding-left: var(--space-3);
+  }
+
+  .site-nav__list a[aria-current="page"]::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    transform: translateY(-50%);
   }
 
   .site-nav__cta {
@@ -335,6 +364,22 @@ section {
     display: flex;
     align-items: center;
   }
+
+  .site-nav__list a {
+    position: relative;
+  }
+
+  .site-nav__list a[aria-current="page"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--color-accent);
+  }
+
   .menu-toggle {
     display: none;
   }
@@ -948,7 +993,22 @@ section {
    "this is how Ashworth & Vale does filter/nav chips" feel across pages —
    not sticky here though, this is a one-off filter row, not a scrollspy. */
 .project-filters {
-  padding-block: var(--space-4);
+  padding-block: var(--space-6) var(--space-4);
+}
+
+.project-filters__header {
+  display: grid;
+  gap: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+.project-filters__header h2 {
+  font-size: 24px;
+}
+
+.project-filters__status {
+  color: var(--color-ink-muted);
+  font-size: 14px;
 }
 
 .project-filters__list {
@@ -992,6 +1052,11 @@ section {
   padding-block: var(--space-4);
   color: var(--color-ink-muted);
   text-align: center;
+}
+
+.process-condensed__link {
+  display: inline-flex;
+  margin-top: var(--space-2);
 }
 
 /* ---------- Project Grid — Bento variant (Homepage Featured Projects) ----------
@@ -2167,3 +2232,1023 @@ section {
 .reveal-delay-2 { transition-delay: 0.16s; }
 .reveal-delay-3 { transition-delay: 0.24s; }
 .reveal-delay-4 { transition-delay: 0.32s; }
+
+/* ---------- Simple page intro (no photography) ----------
+   Same 40px/56px banner-title scale as .page-intro (Services/Projects),
+   for pages the Image Plan deliberately leaves without dedicated
+   photography — visual interest here comes from the content itself. */
+.simple-intro {
+  padding-bottom: var(--space-4);
+}
+
+.process-intro {
+  position: relative;
+  overflow: hidden;
+  padding-block: 72px 88px;
+  background: var(--color-bg-warm);
+}
+
+.process-intro::after {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  right: -210px;
+  top: -250px;
+  border: 1px solid rgba(41, 85, 163, 0.1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 64px rgba(41, 85, 163, 0.025),
+              0 0 0 128px rgba(41, 85, 163, 0.018);
+  pointer-events: none;
+}
+
+.process-intro::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: max(45px, calc((100vw - var(--max-width)) / 2 + 45px));
+  bottom: 0;
+  width: min(42vw, 460px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent) 0 44px, rgba(41, 85, 163, 0.2) 44px 100%);
+}
+
+.process-intro__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.process-intro__eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--color-accent);
+}
+
+.simple-intro__title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .simple-intro__title {
+    font-size: 56px;
+  }
+}
+
+.simple-intro__lead {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 19px;
+  max-width: 56ch;
+}
+
+.process-promises {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-border);
+}
+
+.process-promises li {
+  display: grid;
+  grid-template-columns: 36px 1fr;
+  gap: var(--space-2);
+  align-items: center;
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+.process-promises__mark {
+  color: var(--color-accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+@media (min-width: 900px) {
+  .process-intro {
+    padding-block: 104px 128px;
+  }
+
+  .process-intro__grid {
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.75fr);
+    gap: 96px;
+  }
+}
+
+/* ---------- Process Journey ----------
+   The dedicated page uses a connected editorial journey rather than the
+   Homepage card grid. A sticky architectural drawing develops as the user
+   moves through the five stages; the linear timeline remains the complete
+   mobile experience when the drawing is hidden. */
+.process-full {
+  position: relative;
+  overflow: visible;
+  background: var(--color-bg);
+}
+
+/* Carries the hero rule down to the first timeline node, turning the
+   section boundary into the beginning of the customer journey. */
+.process-full::before {
+  content: "";
+  position: absolute;
+  left: max(45px, calc((100vw - var(--max-width)) / 2 + 45px));
+  top: 0;
+  width: 2px;
+  height: calc(var(--section-padding-mobile) + 22px);
+  background: linear-gradient(180deg, var(--color-accent), var(--color-border));
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .process-full::before {
+    height: calc(var(--section-padding) + 22px);
+  }
+}
+
+.process-journey {
+  display: grid;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.process-steps--full {
+  display: block;
+  max-width: 680px;
+  margin: 0;
+  position: relative;
+  padding-left: 68px;
+  --progress: 0;
+  --line-top: 22px;
+  --line-span: calc(100% - 44px);
+}
+
+.process-steps--full::before,
+.process-steps--full::after {
+  content: '';
+  position: absolute;
+  left: 21px;
+  top: var(--line-top);
+  width: 2px;
+}
+
+.process-steps--full::before {
+  height: var(--line-span);
+  background: var(--color-border);
+}
+
+.process-steps--full::after {
+  height: calc(var(--line-span) * var(--progress));
+  background: var(--color-accent);
+  transition: height 80ms linear;
+}
+
+.process-steps--full li {
+  background: none;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0 0 72px;
+  overflow: visible;
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.process-steps--full li:last-child {
+  padding-bottom: 0;
+}
+
+.process-steps--full li:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.process-steps--full .icon-circle {
+  position: absolute;
+  left: -68px;
+  top: 0;
+  margin: 0;
+  box-shadow: 0 0 0 6px var(--color-bg);
+  background: var(--color-bg);
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard),
+              transform var(--duration-fast) var(--ease-standard);
+}
+
+.process-steps--full li.is-active {
+  transform: translateX(6px);
+}
+
+.process-steps--full li.is-complete .icon-circle,
+.process-steps--full li.is-active .icon-circle {
+  background: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.process-steps--full li.is-active .icon-circle {
+  box-shadow: 0 0 0 6px var(--color-bg),
+              0 0 0 9px rgba(41, 85, 163, 0.14);
+  transform: scale(1.06);
+}
+
+.process-steps--full .process-steps__number {
+  position: static;
+  display: block;
+  font-size: 56px;
+  line-height: 0.8;
+  color: rgba(41, 85, 163, 0.1);
+  -webkit-text-stroke: 0;
+  margin: 0 0 4px;
+}
+
+.process-step__content {
+  max-width: 54ch;
+}
+
+@media (min-width: 768px) {
+  .process-steps--full .process-steps__number {
+    font-size: 72px;
+  }
+}
+
+.process-steps__time {
+  margin-top: 4px !important;
+  font-size: 13px !important;
+  font-weight: 500;
+  color: var(--color-accent) !important;
+}
+
+.process-steps__time + p {
+  margin-top: 4px;
+}
+
+.process-step__outcome {
+  margin-top: var(--space-2) !important;
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-ink) !important;
+  font-size: 14px !important;
+}
+
+.process-step__outcome span {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--color-ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.process-step__focus {
+  margin-bottom: var(--space-1);
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.process-step--build .process-step__content {
+  margin-left: -12px;
+  padding: var(--space-4);
+  border-radius: 12px;
+  background: var(--color-ink);
+  color: #FFFFFF;
+  box-shadow: 0 20px 44px -26px rgba(20, 23, 31, 0.45);
+}
+
+.process-step--build .process-steps__number {
+  /* The numeral sits outside the dark content panel, so it must retain the
+     same pale-navy treatment as the other four stages for continuity. */
+  color: rgba(41, 85, 163, 0.1);
+}
+
+.process-step--build .process-steps__time {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.process-step--build .process-step__content > p:not(.process-step__focus):not(.process-steps__time):not(.process-step__outcome) {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.process-step--build .process-step__outcome {
+  border-color: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF !important;
+}
+
+.process-step--build .process-step__outcome span {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.process-step--handover .process-step__content {
+  padding-bottom: var(--space-3);
+  border-bottom: 3px solid var(--color-accent);
+}
+
+/* Sticky architectural drawing — desktop only. */
+.process-blueprint {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .process-journey {
+    grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
+    gap: 88px;
+  }
+
+  .process-blueprint {
+    display: block;
+    position: sticky;
+    top: 148px;
+  }
+
+  .process-blueprint__panel {
+    position: relative;
+    overflow: hidden;
+    min-height: 570px;
+    padding: var(--space-4);
+    border: 1px solid rgba(41, 85, 163, 0.16);
+    border-radius: 16px;
+    background: linear-gradient(145deg, #F8FAFD 0%, #EEF3FA 100%);
+    box-shadow: 0 24px 70px -48px rgba(20, 23, 31, 0.45);
+  }
+
+  .process-blueprint__header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+  }
+
+  .process-blueprint__header .label {
+    color: var(--color-accent);
+  }
+
+  .process-blueprint__stage-name {
+    margin-top: 4px;
+    color: var(--color-ink);
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .process-blueprint__stage-note {
+    margin-top: 3px;
+    max-width: 32ch;
+    color: var(--color-ink-muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .process-blueprint__counter {
+    display: flex;
+    align-items: baseline;
+    gap: 5px;
+    color: var(--color-ink-muted);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .process-blueprint__counter [data-process-current] {
+    color: var(--color-ink);
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .process-blueprint__drawing {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-top: var(--space-2);
+    color: rgba(41, 85, 163, 0.15);
+  }
+
+  .process-blueprint__grid {
+    opacity: 0.65;
+  }
+
+  .blueprint-stage {
+    fill: none;
+    stroke: var(--color-accent);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-standard),
+                stroke-width var(--duration-base) var(--ease-standard);
+  }
+
+  .blueprint-stage path,
+  .blueprint-stage circle {
+    stroke-dasharray: 900;
+    stroke-dashoffset: 900;
+    transition: stroke-dashoffset 0.8s var(--ease-standard);
+  }
+
+  .blueprint-stage text {
+    fill: var(--color-accent);
+    stroke: none;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .blueprint-stage.is-drawn {
+    opacity: 0.28;
+  }
+
+  .blueprint-stage.is-current {
+    opacity: 1;
+    stroke-width: 2.6;
+  }
+
+  .blueprint-stage.is-drawn path,
+  .blueprint-stage.is-drawn circle {
+    stroke-dashoffset: 0;
+  }
+
+  .process-blueprint__legend {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-content: space-between;
+    gap: var(--space-1);
+    padding-top: var(--space-2);
+    border-top: 1px solid rgba(41, 85, 163, 0.12);
+    color: var(--color-ink-muted);
+    font-size: 11px;
+  }
+
+  .process-blueprint__legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .process-blueprint__legend i {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-border);
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .process-blueprint[data-stage="1"] .process-blueprint__legend span:nth-child(-n+1) i,
+  .process-blueprint[data-stage="2"] .process-blueprint__legend span:nth-child(-n+2) i,
+  .process-blueprint[data-stage="3"] .process-blueprint__legend span:nth-child(-n+3) i,
+  .process-blueprint[data-stage="4"] .process-blueprint__legend span:nth-child(-n+4) i,
+  .process-blueprint[data-stage="5"] .process-blueprint__legend span:nth-child(-n+5) i {
+    background: var(--color-accent);
+  }
+}
+
+/* ---------- Simple FAQ (condensed, non-interactive) ---------- */
+.process-faq {
+  padding-block: 80px;
+}
+
+.process-faq__layout {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.process-faq__intro > p:not(.label):not(.process-faq__more) {
+  margin-top: var(--space-2);
+  max-width: 38ch;
+  color: var(--color-ink-muted);
+}
+
+.process-faq__intro .label {
+  margin-bottom: var(--space-1);
+  color: var(--color-accent);
+}
+
+.simple-faq {
+  margin: 0;
+  max-width: none;
+}
+
+.simple-faq__item {
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.simple-faq__item:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.simple-faq__item dt {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.simple-faq__item dd {
+  margin: var(--space-1) 0 0;
+  color: var(--color-ink-muted);
+  max-width: 60ch;
+}
+
+.process-faq__more {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .process-faq {
+    padding-block: 96px;
+  }
+
+  .process-faq__layout {
+    grid-template-columns: minmax(260px, 0.75fr) minmax(0, 1.25fr);
+    gap: 96px;
+    align-items: start;
+  }
+}
+
+/* ---------- FAQ Topic Nav (FAQ page) ----------
+   Same sticky, horizontally-scrolling pill-bar recipe as the Services
+   page's .service-quicknav (rgba(244,246,249,0.72) is that same
+   --color-bg-alt tint, blurred). Kept as its own named component rather
+   than sharing the class, so a change to one page's sticky bar can never
+   bleed into the other's already-approved page. top:113px and the
+   .faq-topic scroll-margin-top below both reuse the exact header-height
+   figure .service-quicknav already established. Scrollspy + active-pill
+   logic lives in main.js. */
+.faq-topicnav {
+  position: sticky;
+  top: 113px;
+  z-index: 25;
+  background: rgba(244, 246, 249, 0.72);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-topicnav__inner {
+  display: flex;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.faq-topicnav__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.faq-topicnav__link {
+  flex-shrink: 0;
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: var(--color-ink-muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-standard),
+              color var(--duration-fast) var(--ease-standard);
+}
+
+.faq-topicnav__link:hover {
+  color: var(--color-ink);
+}
+
+.faq-topicnav__link.is-active {
+  background: var(--color-bg);
+  color: var(--color-accent);
+  font-weight: 600;
+}
+
+/* ---------- FAQ Topic Sections (FAQ page) ----------
+   One section per topic, alternating background — a felt beat change to
+   go with the scrollspy, not just a technically-updated nav state.
+   scroll-margin-top matches .service-detail: same sticky site-header plus
+   a same-height sticky bar stacked above it. */
+.faq-topic {
+  scroll-margin-top: 188px;
+}
+
+.faq-topic__inner {
+  max-width: 72ch;
+}
+
+.faq-topic__related {
+  margin-top: var(--space-4);
+}
+
+/* ---------- FAQ Accordion (FAQ page) ----------
+   Same interaction recipe as the Services page's .faq-condensed
+   (grid-rows 0fr/1fr collapse, plus/minus icon rotate, single-open — here
+   scoped per topic list rather than page-wide, so opening a question in
+   one topic doesn't collapse one left open in another). Kept as its own
+   named component rather than sharing the class, so this page's one
+   addition — the open question's text also changes colour, not just its
+   icon, so "the expanded state is obvious" per the FAQ brief — can never
+   cascade onto the already-approved Services page's mini-FAQ. Falls back
+   to fully expanded, unstyled-icon via a <noscript> stylesheet in
+   faq.html when JS is unavailable. */
+.faq-accordion__list {
+  margin-top: var(--space-4);
+}
+
+.faq-accordion__item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq-accordion__item:last-child {
+  border-bottom: none;
+}
+
+.faq-accordion__item h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.faq-accordion__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  padding-block: var(--space-3);
+  background: none;
+  border: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-ink);
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.faq-accordion__question[aria-expanded="true"] {
+  color: var(--color-accent);
+}
+
+.faq-accordion__icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.faq-accordion__icon::before,
+.faq-accordion__icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: var(--color-accent);
+  transform: translate(-50%, -50%);
+  transition: transform var(--duration-base) var(--ease-standard);
+}
+
+.faq-accordion__icon::before {
+  width: 100%;
+  height: 2px;
+}
+
+.faq-accordion__icon::after {
+  width: 2px;
+  height: 100%;
+}
+
+.faq-accordion__question[aria-expanded="true"] .faq-accordion__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.faq-accordion__answer-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration-base) var(--ease-standard);
+}
+
+.faq-accordion__item.is-open .faq-accordion__answer-wrap {
+  grid-template-rows: 1fr;
+}
+
+.faq-accordion__answer {
+  overflow: hidden;
+}
+
+.faq-accordion__answer p {
+  padding-bottom: var(--space-3);
+  color: var(--color-ink-muted);
+}
+
+/* ---------- Contact: What Happens Next (Contact page) ----------
+   Same "stack + horizontal divider on mobile, row + vertical divider from
+   tablet up" recipe as the Homepage's .trust-bar, reused here rather than
+   invented fresh — satisfies the brief's "explain the next step before the
+   form" note without a new layout idea. */
+.contact-next {
+  padding-top: 0;
+}
+
+.contact-next__list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.contact-next__list li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding-block: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-weight: 500;
+}
+
+.contact-next__list li:last-child {
+  border-bottom: none;
+}
+
+@media (min-width: 640px) {
+  .contact-next__list {
+    flex-direction: row;
+  }
+
+  .contact-next__list li {
+    flex: 1;
+    padding-block: 0;
+    padding-inline: var(--space-3);
+    border-bottom: none;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .contact-next__list li:first-child {
+    padding-left: 0;
+    border-left: none;
+  }
+}
+
+.contact-next__mark {
+  flex-shrink: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Contact: Form + Reassurance Panel (Contact page) ----------
+   Split composition per the brief: form is the primary column, a sticky
+   panel beside it folds in Contact Details + Location Coverage rather than
+   listing them as separate flat sections below — the richer realisation of
+   the brief's flat Section Order, same evolution Process/FAQ already went
+   through. DOM order is form-then-panel throughout, so mobile naturally
+   stacks with the phone/reassurance panel straight after the form (per the
+   brief's mobile note) with no reordering needed; the grid below is what
+   turns that same order into a side-by-side split from 900px up. */
+.contact-main__grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+@media (min-width: 900px) {
+  .contact-main__grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 1fr);
+    align-items: start;
+  }
+}
+
+.contact-form {
+  max-width: 640px;
+}
+
+.contact-form__group {
+  border: none;
+  margin: 0 0 var(--space-6);
+  padding: 0;
+}
+
+.contact-form__group legend {
+  width: 100%;
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--color-border);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.form-field {
+  margin-top: var(--space-3);
+}
+
+.form-field:first-child {
+  margin-top: 0;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.form-field__optional {
+  font-weight: 400;
+  color: var(--color-ink-muted);
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+              box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(41, 85, 163, 0.15);
+}
+
+.form-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-field__error {
+  margin: 6px 0 0;
+  color: var(--color-danger);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.form-field__error:empty {
+  display: none;
+}
+
+.form-field.has-error input,
+.form-field.has-error select,
+.form-field.has-error textarea {
+  border-color: var(--color-danger);
+  background: var(--color-danger-bg);
+}
+
+.form-field.has-error input:focus,
+.form-field.has-error textarea:focus {
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.15);
+}
+
+.contact-form__submit {
+  width: 100%;
+}
+
+@media (min-width: 540px) {
+  .contact-form__submit {
+    width: auto;
+  }
+}
+
+.contact-form__reassurance {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+  font-size: 14px;
+}
+
+.contact-success h2 {
+  margin-bottom: var(--space-2);
+}
+
+.contact-success p {
+  color: var(--color-ink-muted);
+  max-width: 52ch;
+}
+
+.contact-panel {
+  background: var(--color-bg-alt);
+  border-radius: 12px;
+  padding: var(--space-4);
+}
+
+@media (min-width: 900px) {
+  /* 113px header + var(--space-3) breathing room — same header-height figure
+     already established for .service-quicknav/.faq-topicnav, just without
+     a second sticky bar stacked on top of it here. */
+  .contact-panel {
+    position: sticky;
+    top: 137px;
+  }
+}
+
+.contact-panel__phone {
+  display: block;
+  margin-top: 4px;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.contact-panel__note {
+  margin-top: var(--space-1);
+  color: var(--color-ink-muted);
+  font-size: 14px;
+}
+
+.contact-panel__section {
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.contact-panel__label--spaced {
+  margin-top: var(--space-2);
+}
+
+/* ---------- Contact: Location Coverage (Contact page) ----------
+   A schematic node diagram (Guildford hub + spokes out to each town) —
+   deliberately abstract/not-to-scale rather than a real map embed, so it
+   never implies false geographic precision for a placeholder address and
+   adds no third-party script/dependency. Fixed pixel width rather than
+   scaling with the viewport: SVG text scales with the whole graphic, and
+   shrinking it to fit a 375px screen would make the labels illegible: the
+   wrap scrolls horizontally on narrow screens instead, same pattern as the
+   Services/FAQ pill nav. The plain-text list above it stays the primary
+   accessible summary either way. */
+.coverage__grid {
+  display: grid;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .coverage__grid {
+    grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-6);
+  }
+}
+
+.coverage__copy h2 {
+  margin-top: var(--space-1);
+}
+
+.coverage__copy > p {
+  margin-top: var(--space-2);
+  color: var(--color-ink-muted);
+}
+
+.coverage__list {
+  font-weight: 500;
+  color: var(--color-ink) !important;
+}
+
+.coverage__map-wrap {
+  overflow-x: auto;
+}
+
+.coverage__map {
+  display: block;
+  width: 560px;
+  height: auto;
+}
+
+.coverage__lines line {
+  stroke: var(--color-border);
+  stroke-width: 1.5;
+}
+
+.coverage__node circle {
+  fill: var(--color-accent);
+}
+
+.coverage__node--hub circle {
+  stroke: var(--color-bg);
+  stroke-width: 4;
+}
+
+.coverage__node text {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--color-ink);
+  text-anchor: middle;
+}
+
+.coverage__node--hub text {
+  font-weight: 700;
+  fill: var(--color-accent);
+}

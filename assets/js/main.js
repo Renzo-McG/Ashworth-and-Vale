@@ -5,6 +5,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var toggle = document.getElementById('menu-toggle');
   var nav = document.getElementById('site-nav');
 
+  // Page-aware navigation — confirms where the visitor is in the site rather
+  // than relying on them to infer it from the page title. Project Detail is
+  // part of the Projects journey, so it intentionally highlights Projects.
+  var currentFile = window.location.pathname.split('/').pop() || 'index.html';
+  var currentNavFile = currentFile === 'project-detail.html' ? 'projects.html' : currentFile;
+  document.querySelectorAll('.site-nav__list a').forEach(function (link) {
+    var linkFile = link.getAttribute('href').split('#')[0];
+    if (linkFile === currentNavFile) {
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+
   if (toggle && nav) {
     toggle.addEventListener('click', function () {
       var isOpen = nav.classList.toggle('is-open');
@@ -172,6 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var filterBtns = document.querySelectorAll('.project-filters__btn');
   var filterCards = document.querySelectorAll('#project-grid .project-card');
   var emptyMsg = document.getElementById('project-empty');
+  var filterStatus = document.getElementById('project-filter-status');
 
   if (filterBtns.length && filterCards.length) {
     filterBtns.forEach(function (btn) {
@@ -193,6 +206,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         if (emptyMsg) emptyMsg.hidden = visibleCount > 0;
+        if (filterStatus) {
+          var filterName = btn.textContent.trim();
+          filterStatus.textContent = filter === 'all'
+            ? 'Showing all ' + visibleCount + ' projects'
+            : 'Showing ' + visibleCount + (visibleCount === 1 ? ' project' : ' projects') + ' — ' + filterName;
+        }
       });
     });
   }
@@ -344,5 +363,224 @@ document.addEventListener('DOMContentLoaded', function () {
       if (galleryNext) galleryNext.hidden = true;
       if (galleryDotsWrap) galleryDotsWrap.hidden = true;
     }
+  }
+
+  // Process timeline (Process page) — accent line fills in sync with
+  // scroll position and highlights the current step. Line position is
+  // measured from the actual icon-circles rather than hardcoded, so it
+  // lines up regardless of how much a step's copy wraps. Not gated on
+  // prefers-reduced-motion: it's bound 1:1 to the user's own scroll
+  // rather than an autoplaying animation, so there's nothing to skip —
+  // if JS never runs, --line-top/--line-span CSS fallbacks keep the
+  // base (grey) line looking correct with no accent fill.
+  var timeline = document.querySelector('.process-steps--full');
+  if (timeline) {
+    var timelineItems = timeline.querySelectorAll('li');
+    var timelineVisual = document.querySelector('[data-process-visual]');
+    var timelineCurrent = document.querySelector('[data-process-current]');
+    var timelineStageTitle = document.querySelector('[data-process-stage-title]');
+    var timelineStageNote = document.querySelector('[data-process-stage-note]');
+    var blueprintStages = document.querySelectorAll('[data-blueprint-stage]');
+    var timelineStageContent = [
+      {
+        title: 'Brief',
+        note: 'Understanding the space and what you need from it.'
+      },
+      {
+        title: 'Design',
+        note: 'Turning the brief into a practical, buildable plan.'
+      },
+      {
+        title: 'Agreement',
+        note: 'Fixing the scope, cost and programme before work begins.'
+      },
+      {
+        title: 'Build',
+        note: 'Bringing the agreed design to life, with regular updates.'
+      },
+      {
+        title: 'Handover',
+        note: 'Signing off the finished work and starting aftercare.'
+      }
+    ];
+    var timelineIcons = [];
+    timelineItems.forEach(function (li) {
+      timelineIcons.push(li.querySelector('.icon-circle'));
+    });
+
+    var measureTimeline = function () {
+      if (!timelineIcons.length) return;
+      var first = timelineIcons[0];
+      var last = timelineIcons[timelineIcons.length - 1];
+      var top = first.offsetTop + first.offsetHeight / 2;
+      var bottom = last.offsetTop + last.offsetHeight / 2;
+      timeline.style.setProperty('--line-top', top + 'px');
+      timeline.style.setProperty('--line-span', (bottom - top) + 'px');
+    };
+
+    var updateTimeline = function () {
+      var viewportLine = window.innerHeight * 0.5;
+      var firstRect = timelineIcons[0].getBoundingClientRect();
+      var lastRect = timelineIcons[timelineIcons.length - 1].getBoundingClientRect();
+      var firstCentre = firstRect.top + firstRect.height / 2;
+      var lastCentre = lastRect.top + lastRect.height / 2;
+      var progress = (viewportLine - firstCentre) / (lastCentre - firstCentre);
+      progress = Math.max(0, Math.min(1, progress));
+      timeline.style.setProperty('--progress', progress);
+
+      var activeIndex = -1;
+      timelineIcons.forEach(function (icon, i) {
+        if (icon.getBoundingClientRect().top <= viewportLine) activeIndex = i;
+      });
+      timelineItems.forEach(function (li, i) {
+        li.classList.toggle('is-active', i === activeIndex);
+        li.classList.toggle('is-complete', i < activeIndex);
+        if (i === activeIndex) {
+          li.setAttribute('aria-current', 'step');
+        } else {
+          li.removeAttribute('aria-current');
+        }
+      });
+
+      var displayedStage = Math.max(0, activeIndex);
+      if (timelineCurrent) {
+        timelineCurrent.textContent = String(displayedStage + 1).padStart(2, '0');
+      }
+      if (timelineStageTitle) {
+        timelineStageTitle.textContent = timelineStageContent[displayedStage].title;
+      }
+      if (timelineStageNote) {
+        timelineStageNote.textContent = timelineStageContent[displayedStage].note;
+      }
+      if (timelineVisual) {
+        timelineVisual.setAttribute('data-stage', displayedStage + 1);
+      }
+      blueprintStages.forEach(function (stage) {
+        var stageNumber = parseInt(stage.getAttribute('data-blueprint-stage'), 10);
+        stage.classList.toggle('is-drawn', stageNumber <= displayedStage + 1);
+        stage.classList.toggle('is-current', stageNumber === displayedStage + 1);
+      });
+    };
+
+    measureTimeline();
+    updateTimeline();
+
+    var timelineTicking = false;
+    window.addEventListener('scroll', function () {
+      if (timelineTicking) return;
+      timelineTicking = true;
+      window.requestAnimationFrame(function () {
+        updateTimeline();
+        timelineTicking = false;
+      });
+    }, { passive: true });
+
+    window.addEventListener('resize', function () {
+      measureTimeline();
+      updateTimeline();
+    });
+  }
+
+  // FAQ accordion (full FAQ page) — same collapsed-by-default, one-open
+  // pattern as the Services page's condensed FAQ, but scoped per topic
+  // list rather than page-wide: closing every .faq-accordion__item inside
+  // just this question's own list, not every item on the page, so opening
+  // a question in one topic doesn't collapse one left open in another.
+  document.querySelectorAll('.faq-accordion__question').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var item = btn.closest('.faq-accordion__item');
+      var isOpen = item.classList.contains('is-open');
+
+      item.parentElement.querySelectorAll('.faq-accordion__item').forEach(function (el) {
+        el.classList.remove('is-open');
+        el.querySelector('.faq-accordion__question').setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isOpen) {
+        item.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // FAQ topic nav (full FAQ page) — same sticky-pill scrollspy as the
+  // Services page's quick nav: highlights whichever topic section is
+  // currently in view and keeps that pill scrolled into sight on mobile.
+  var faqTopicLinks = document.querySelectorAll('.faq-topicnav__link');
+  var faqTopicSections = document.querySelectorAll('.faq-topic');
+
+  if (faqTopicLinks.length && faqTopicSections.length && 'IntersectionObserver' in window) {
+    var faqTopicObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var link = document.querySelector('.faq-topicnav__link[data-target="' + entry.target.id + '"]');
+        if (!link) return;
+        faqTopicLinks.forEach(function (l) { l.classList.remove('is-active'); });
+        link.classList.add('is-active');
+        link.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', inline: 'center', block: 'nearest' });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+
+    faqTopicSections.forEach(function (section) { faqTopicObserver.observe(section); });
+  }
+
+  // Contact form (Contact page) — validates and shows a real success state,
+  // but never actually sends anywhere: this demo site has no backend to
+  // deliver an enquiry to (see Framework/06 Build Spec.md — "leave it as a
+  // styled non-functional mockup" is the explicit fallback when a form
+  // service isn't wired up). Errors are specific per field and input is
+  // never cleared after a failed attempt, per the Contact brief's UX notes.
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    var contactFields = {
+      name: { el: document.getElementById('cf-name'), message: 'Enter your name.' },
+      email: { el: document.getElementById('cf-email'), message: 'Enter a valid email address.' },
+      message: { el: document.getElementById('cf-message'), message: 'Let us know a little about your project.' }
+    };
+
+    var validateContactField = function (key) {
+      var field = contactFields[key];
+      var value = field.el.value.trim();
+      var valid = key === 'email'
+        ? value !== '' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        : value !== '';
+
+      var wrap = field.el.closest('.form-field');
+      var errorEl = document.getElementById(field.el.id + '-error');
+
+      wrap.classList.toggle('has-error', !valid);
+      field.el.setAttribute('aria-invalid', valid ? 'false' : 'true');
+      if (errorEl) errorEl.textContent = valid ? '' : field.message;
+
+      return valid;
+    };
+
+    Object.keys(contactFields).forEach(function (key) {
+      contactFields[key].el.addEventListener('blur', function () { validateContactField(key); });
+    });
+
+    contactForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      var keys = Object.keys(contactFields);
+      var results = keys.map(validateContactField);
+      var firstInvalid = keys[results.indexOf(false)];
+
+      if (firstInvalid) {
+        contactFields[firstInvalid].el.focus();
+        return;
+      }
+
+      var successMessage = document.getElementById('contact-success-message');
+      if (successMessage) {
+        successMessage.textContent = 'Thanks, ' + contactFields.name.el.value.trim() + ' — we’ve received your enquiry and will reply within one working day. If it’s urgent, call us on 01483 000 000.';
+      }
+
+      document.getElementById('contact-form-body').hidden = true;
+      var success = document.getElementById('contact-success');
+      success.hidden = false;
+      success.setAttribute('tabindex', '-1');
+      success.focus();
+    });
   }
 });

@@ -1,6 +1,6 @@
 # Ashworth & Vale — Shared Project Guide
 
-Last reviewed: 23 July 2026
+Last reviewed: 24 July 2026
 
 ## Purpose
 
@@ -44,6 +44,71 @@ The primary audience is a homeowner considering a meaningful renovation or exten
 
 The site should reduce uncertainty without becoming defensive or overloaded with reassurance.
 
+## UX and experience principles
+
+The site should behave like a guided customer journey, not a sequence of attractive content blocks. Every page must help a homeowner notice the right information, understand what it means, and know what to do next.
+
+### Page narrative
+
+Design each page with four deliberate beats:
+
+1. **Opening:** establish the visitor's context and the promise of the page.
+2. **Progression:** reveal information in the order the visitor needs it.
+3. **Focal moment:** give the page one memorable, high-value interaction or visual emphasis.
+4. **Resolution:** answer the remaining concern and provide a natural next action.
+
+Sections should not all have equal visual weight. Use changes in composition, scale, contrast, surface, and content density to create rhythm. A key moment may break the repeating layout, but it must retain a visible relationship to the system around it.
+
+Before approving a page, ask at each viewport position:
+
+- What should the visitor notice here?
+- What should they understand or feel after this section?
+- What question does the next section answer?
+- Is there a visible indication of state, progress, or next action?
+
+### Meaningful “aliveness”
+
+- Motion and interaction must explain progress, state, comparison, hierarchy, or cause and effect.
+- When content changes, make the change unmistakable. Do not rely on a technically updated but visually imperceptible state.
+- The page should acknowledge the visitor's actions through active states, progress indicators, counts, labels, or responsive content where useful.
+- Use one distinctive experience idea per page rather than scattering decorative animation throughout it.
+- Keep the complete content understandable without animation or JavaScript.
+
+### Space, imagery, and pacing
+
+- Whitespace is valuable when it creates focus, anticipation, or relief. It is a weakness when a section feels empty because nothing is being communicated.
+- Photography must provide evidence, atmosphere, material detail, or project continuity. Do not add it merely to occupy space.
+- Graphic systems, diagrams, numbered sequences, comparisons, and carefully composed typography can create richness without photography.
+- Separate major page beats deliberately. A background change, aligned divider, shift in composition, or contrast change should clarify the narrative—not simply alternate colours mechanically.
+
+### Worked example: Process page
+
+The Process page is the reference implementation for this thinking:
+
+- The hero groups the promise and three reassurances on a restrained stone surface.
+- Its partial divider turns downward into the timeline, visually handing the visitor into the journey.
+- The timeline highlights the current step and fills as the visitor progresses.
+- A sticky architectural drawing develops through five meaningful states; its title and explanation change with the current stage.
+- Previous drawing layers recede while the current layer becomes prominent, making the state change obvious.
+- The Build stage is the focal moment: a dark panel changes the rhythm while its large `04` maintains continuity with the surrounding steps.
+- The FAQ resolves practical concerns before the final CTA.
+
+Do not copy the blueprint literally onto other pages. Copy the reasoning: identify the page's customer question, choose an interaction or visual system that helps answer it, and give the journey a clear beginning, progression, focal point, and resolution.
+
+### Current page journey map
+
+| Page | Opening | Progression | Focal moment | Resolution / next action |
+|---|---|---|---|---|
+| Home | Outcome-led photographic hero and immediate trust | Services → project proof → condensed process | Asymmetric featured-project bento grid | Testimonials → project enquiry CTA |
+| Services | Image-led statement of scope | Sticky service navigation → alternating service detail | Live scrollspy keeps the chosen/current service visible | Relevant work → practical FAQs → service enquiry CTA |
+| Projects | Portfolio promise | Guided project-type filters → curated grid | The grid responds instantly and reports the number of matching projects | Project detail or direct enquiry |
+| Project detail | Finished result and project context | Stats → interactive transformation → narrative → material detail | Before/after comparison | Client testimony → “Want a space like this?” CTA |
+| Process | Clear promise and three expectations | Scroll-linked stages and developing drawing | Contrasting Build stage with continuous `04` | Process FAQs → conversation CTA |
+| FAQ (next) | Acknowledge the visitor's concern | Topic navigation → grouped questions | Responsive topic/answer workspace | Direct route to ask an unanswered question |
+| Contact (next) | Response-time and no-pressure promise | What happens next → grouped enquiry form | Calm form completion and specific validation/success feedback | Confirmation, expected reply time, or phone alternative |
+
+This table is a design check, not a rigid template. When a page changes, verify that its four beats still form a coherent journey.
+
 ## Voice and copy
 
 ### Voice principles
@@ -82,6 +147,7 @@ These are established brand decisions. Do not introduce alternatives without doc
 |---|---:|---|
 | `--color-bg` | `#FFFFFF` | Main page background |
 | `--color-bg-alt` | `#F4F6F9` | Alternating sections and cool card fills |
+| `--color-bg-warm` | `#F5F3EE` | Process hero only; a restrained stone surface separating the opening promise from the journey |
 | `--color-ink` | `#14171F` | Headings and body text |
 | `--color-ink-muted` | `#5B6472` | Secondary and caption text |
 | `--color-accent` | `#2955A3` | Primary CTAs, links, and active states |
@@ -96,7 +162,7 @@ Rules:
 - Navy is the single brand accent and should be used sparingly.
 - Green is semantic, not decorative and not a second accent.
 - White and cool grey should dominate.
-- Do not reintroduce the superseded warm cream, terracotta, or brown direction.
+- The stone Process-hero surface is a deliberate, approved exception—not a return to a sitewide warm cream, terracotta, or brown direction.
 - Any additional translucent black or white used over photography must serve legibility, not become a new palette.
 
 ### Typography
@@ -192,7 +258,7 @@ Use the existing motion tokens:
 - `--duration-base: 0.25s`
 - `--duration-slow: 0.6s`
 
-Approved and committed behaviours include:
+Approved behaviours include:
 
 - Subtle colour transitions
 - Card hover lift
@@ -203,11 +269,13 @@ Approved and committed behaviours include:
 - Count-up statistics
 - Restrained magnetic button response for fine pointers
 - Services-page scrollspy and accordion
-
-Implemented but pending review and approval:
-
-- Projects filtering
+- Process-page progressive timeline and architectural drawing
 - Accessible before/after comparison control
+- Page-aware primary navigation
+- Project-filter result feedback
+- Homepage route from the condensed process into the full Process page
+- FAQ topic scrollspy and accessible accordion
+- Contact-form validation and success state
 
 Rules:
 
@@ -273,24 +341,24 @@ Do not assess the site solely by opening HTML directly from disk; use the local 
 
 ## Page map and implementation status
 
-| Page | Target file | Current status as of 23 July 2026 |
+| Page | Target file | Current status as of 25 July 2026 |
 |---|---|---|
-| Home | `index.html` | Approved and committed |
-| Services | `services.html` | Approved and committed |
-| Projects | `projects.html` | Approved, committed, pushed, and deployed |
-| Project detail | `project-detail.html` | Approved, committed, pushed, and deployed |
-| Process | `process.html` | Not yet present |
-| FAQ | `faq.html` | Not yet present |
-| Contact | `contact.html` | Not yet present |
+| Home | `index.html` | Complete and approved |
+| Services | `services.html` | Complete and approved |
+| Projects | `projects.html` | Complete and approved |
+| Project detail | `project-detail.html` | Complete and approved |
+| Process | `process.html` | Complete and approved |
+| FAQ | `faq.html` | Complete and approved |
+| Contact | `contact.html` | Complete and approved |
 
 Supporting preview/test pages:
 
 - `components-preview.html`
 - `test.html`
 
-Current build milestone: `76a9ecd` — Stages 4–5 plus the imagery overhaul.
+Current build milestone: complete demo site — Stages 1–8 plus final cross-page QA.
 
-Rolling-preview deployment: `8fda8d6`. GitHub Pages deploys production HTML and assets from `main` through `.github/workflows/deploy-pages.yml`. Internal test pages and Markdown are excluded. Process, FAQ, and Contact remain unbuilt and currently return 404 in the preview; start with Stage 6 — Process Page.
+GitHub Pages deploys the seven production pages and shared assets from `main` through `.github/workflows/deploy-pages.yml`. Internal test pages and Markdown are excluded.
 
 ## Sources of truth
 
@@ -386,6 +454,9 @@ Use this section to prevent decisions from being buried in an assistant conversa
 | 23 Jul 2026 | Claude | Existing approved pages did not lazy-load below-the-fold images. | Resolved during imagery overhaul; explicit dimensions and lazy loading added sitewide where appropriate |
 | 23 Jul 2026 | Codex | Repository initially displayed work-account commit attribution. | Resolved: history corrected to `Renzo-McG`; repository-local and Renzo-Space path-specific personal Git identity configured |
 | 23 Jul 2026 | Codex | Rolling preview requested before Stages 6–8 exist. | Accepted: preview is live; missing future pages intentionally return 404 until built |
+| 24 Jul 2026 | Claude | Lawrence asked to redesign the flat grey `.process-steps li` card treatment on the Process page. Root cause: Process's steps section uses `section-alt` (grey `--color-bg-alt`), so the original grey-fill card read as flat against it; Home's condensed section has no `section-alt` (white background), so the same grey card already reads with contrast there. | Superseded: Codex's later full Process redesign (scroll-linked timeline + architectural drawing, now the guide's worked example) replaced this card-grid approach entirely. Left this row for history rather than deleting it. |
+| 24 Jul 2026 | Claude | `Demo Site/Build Workstream.md` Stage 6 still says "Built by Claude, awaiting Lawrence's review," while this guide and the current `process.html` reflect Codex's later full redesign, approved in local review. | Not resolved — flagged in Build Workstream.md's own table rather than silently rewritten, since the correct summary of what Codex built and shipped belongs to whoever built it |
+| 24 Jul 2026 | Claude | Built the FAQ page (`faq.html`) as its own topic-nav + accordion components (`.faq-topicnav`, `.faq-accordion`) rather than reusing `.service-quicknav`/`.faq-condensed` directly, so the FAQ page's one behavioural addition (open question text also turns accent colour) can never cascade onto the already-approved Services page. Same visual recipe/tokens, different class names. | Not a shared-component change, so no other page is affected — noting the pattern choice here so Codex doesn't read it as an accidental duplicate system |
 
 ## Change control for this guide
 

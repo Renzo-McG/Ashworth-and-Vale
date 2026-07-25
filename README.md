@@ -6,9 +6,7 @@ A polished, responsive website for a fictional residential design-and-build comp
 
 ## Live preview
 
-[View the rolling GitHub Pages preview](https://renzo-mcg.github.io/Ashworth-and-Vale/)
-
-The preview is published during development. Home, Services, Projects, and Project Detail are currently available. Process, FAQ, and Contact are still being built, so links to those pages may temporarily return 404.
+[View the complete demo site on GitHub Pages](https://renzo-mcg.github.io/Ashworth-and-Vale/)
 
 ## About the project
 
@@ -34,10 +32,10 @@ The design direction is intentionally clean, spacious, and quietly confident—c
 | Services | Complete |
 | Projects | Complete |
 | Project Detail | Complete |
-| Process | Planned |
-| FAQ | Planned |
-| Contact | Planned |
-| Final cross-page QA | Planned |
+| Process | Complete |
+| FAQ | Complete |
+| Contact | Complete |
+| Final cross-page QA | Complete |
 | Rolling preview deployment | Live |
 
 ## Features
@@ -49,7 +47,9 @@ The design direction is intentionally clean, spacious, and quietly confident—c
 - Interactive before-and-after comparison slider
 - Swipeable finished-project gallery
 - Services-page scrollspy navigation
-- Accessible FAQ accordion pattern
+- Scroll-linked Process journey and progressive architectural drawing
+- Topic-aware FAQ navigation and accessible accordion
+- Contact form validation and confirmation state
 - Scroll-reveal and count-up effects
 - Reduced-motion support
 - Keyboard-accessible interactive controls
@@ -135,4 +135,3 @@ This repository and its live preview are a design and development demonstration.
 ## Created by
 
 Designed and built as an [Akari Studio](https://github.com/Renzo-McG) portfolio demonstration.
-

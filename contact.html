@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | Ashworth &amp; Vale</title>
+  <meta name="description" content="Tell us a bit about your extension or renovation project — Ashworth & Vale replies within one working day, no obligation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+
+      <nav class="site-nav" id="site-nav">
+        <ul class="site-nav__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <a href="contact.html" class="btn btn-primary site-nav__cta">Start Your Project</a>
+      </nav>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="site-nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Page Intro -->
+    <section class="simple-intro">
+      <div class="container">
+        <h1 class="simple-intro__title">Get In Touch</h1>
+        <p class="simple-intro__lead">Tell us a bit about your project — we'll get back to you within one working day.</p>
+      </div>
+    </section>
+
+    <!-- What happens next -->
+    <section class="contact-next">
+      <div class="container">
+        <ol class="contact-next__list">
+          <li><span class="contact-next__mark" aria-hidden="true">01</span>Reply within one working day</li>
+          <li><span class="contact-next__mark" aria-hidden="true">02</span>A short call to talk through your project</li>
+          <li><span class="contact-next__mark" aria-hidden="true">03</span>A site visit — only if it makes sense</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Form + reassurance panel -->
+    <section class="contact-main">
+      <div class="container contact-main__grid">
+
+        <div class="contact-form-wrap">
+          <form class="contact-form" id="contact-form" novalidate>
+
+            <div class="contact-success" id="contact-success" hidden>
+              <h2>Thanks — we've got it.</h2>
+              <p id="contact-success-message"></p>
+            </div>
+
+            <div id="contact-form-body">
+              <fieldset class="contact-form__group">
+                <legend>About you</legend>
+
+                <div class="form-field">
+                  <label for="cf-name">Name</label>
+                  <input type="text" id="cf-name" name="name" autocomplete="name" required aria-describedby="cf-name-error">
+                  <p class="form-field__error" id="cf-name-error" role="alert"></p>
+                </div>
+
+                <div class="form-field">
+                  <label for="cf-email">Email</label>
+                  <input type="email" id="cf-email" name="email" autocomplete="email" inputmode="email" required aria-describedby="cf-email-error">
+                  <p class="form-field__error" id="cf-email-error" role="alert"></p>
+                </div>
+
+                <div class="form-field">
+                  <label for="cf-phone">Phone <span class="form-field__optional">(optional)</span></label>
+                  <input type="tel" id="cf-phone" name="phone" autocomplete="tel" inputmode="tel">
+                </div>
+              </fieldset>
+
+              <fieldset class="contact-form__group">
+                <legend>About the project</legend>
+
+                <div class="form-field">
+                  <label for="cf-type">Project type</label>
+                  <select id="cf-type" name="projectType">
+                    <option>Extension</option>
+                    <option>Full Renovation</option>
+                    <option>Kitchen &amp; Bathroom</option>
+                    <option>Loft Conversion</option>
+                    <option selected>Not Sure</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="cf-message">Message</label>
+                  <textarea id="cf-message" name="message" rows="5" required aria-describedby="cf-message-error"></textarea>
+                  <p class="form-field__error" id="cf-message-error" role="alert"></p>
+                </div>
+              </fieldset>
+
+              <button type="submit" class="btn btn-primary contact-form__submit">Send Enquiry</button>
+              <p class="contact-form__reassurance">We reply within one working day — no obligation.</p>
+            </div>
+          </form>
+        </div>
+
+        <aside class="contact-panel">
+          <div class="contact-panel__inner">
+            <p class="label">Prefer to talk it through?</p>
+            <a href="tel:01483000000" class="contact-panel__phone">01483 000 000</a>
+            <p class="contact-panel__note">We reply within one working day — no obligation.</p>
+
+            <div class="contact-panel__section">
+              <p class="label">Email</p>
+              <p><a href="mailto:hello@ashworthandvale.co.uk">hello@ashworthandvale.co.uk</a></p>
+              <p class="label contact-panel__label--spaced">Office</p>
+              <p>Guildford, Surrey</p>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- Location Coverage -->
+    <section class="coverage section-alt">
+      <div class="container coverage__grid">
+        <div class="coverage__copy">
+          <p class="label">Where we work</p>
+          <h2>Surrey &amp; South West London</h2>
+          <p>Based in Guildford, covering extensions and renovations across:</p>
+          <p class="coverage__list">Surrey &middot; South West London &middot; Kingston &middot; Wimbledon &middot; Richmond &middot; Esher &middot; Weybridge &middot; Guildford</p>
+        </div>
+
+        <div class="coverage__map-wrap">
+          <svg class="coverage__map" viewBox="0 0 600 320" role="img" aria-label="Schematic diagram of the towns Ashworth and Vale serve, radiating from the Guildford office">
+            <g class="coverage__lines">
+              <line x1="110" y1="200" x2="230" y2="120"/>
+              <line x1="110" y1="200" x2="280" y2="220"/>
+              <line x1="110" y1="200" x2="380" y2="110"/>
+              <line x1="110" y1="200" x2="430" y2="195"/>
+              <line x1="110" y1="200" x2="500" y2="135"/>
+            </g>
+            <g class="coverage__node coverage__node--hub">
+              <circle cx="110" cy="200" r="9"/>
+              <text x="110" y="228">Guildford (office)</text>
+            </g>
+            <g class="coverage__node">
+              <circle cx="230" cy="120" r="6"/>
+              <text x="230" y="105">Weybridge</text>
+            </g>
+            <g class="coverage__node">
+              <circle cx="280" cy="220" r="6"/>
+              <text x="280" y="245">Esher</text>
+            </g>
+            <g class="coverage__node">
+              <circle cx="380" cy="110" r="6"/>
+              <text x="380" y="95">Kingston</text>
+            </g>
+            <g class="coverage__node">
+              <circle cx="430" cy="195" r="6"/>
+              <text x="430" y="220">Richmond</text>
+            </g>
+            <g class="coverage__node">
+              <circle cx="500" cy="135" r="6"/>
+              <text x="500" y="120">Wimbledon</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <div class="site-footer__col">
+        <a href="index.html" class="site-logo">Ashworth <span class="site-logo__amp">&amp;</span> Vale</a>
+        <p class="site-footer__tagline">Design &amp; build for homeowners across Surrey and South West London.</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Navigate</p>
+        <ul class="site-footer__list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="process.html">Process</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Contact</p>
+        <p><a href="tel:01483000000">01483 000 000</a></p>
+        <p><a href="mailto:hello@ashworthandvale.co.uk">hello@ashworthandvale.co.uk</a></p>
+        <p>Guildford, Surrey</p>
+      </div>
+      <div class="site-footer__col">
+        <p class="label">Coverage</p>
+        <p class="site-footer__coverage">Surrey &middot; South West London &middot; Kingston &middot; Wimbledon &middot; Richmond &middot; Esher &middot; Weybridge &middot; Guildford</p>
+      </div>
+    </div>
+    <div class="container site-footer__bottom">
+      <p class="caption">FMB Accredited &middot; Checkatrade Verified</p>
+      <p class="caption">&copy; 2026 Ashworth &amp; Vale. All rights reserved. &middot; Built by Akari Studio</p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
