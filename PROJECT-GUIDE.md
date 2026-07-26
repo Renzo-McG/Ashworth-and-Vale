@@ -27,7 +27,8 @@ If this guide, a vault brief, and the current implementation disagree:
 - **Site purpose:** Demonstrate Akari Studio's ability to create a polished, credible website for a design-and-build firm
 - **Technology:** Static HTML, shared CSS, and vanilla JavaScript; no framework or build step
 - **Repository:** `github.com/Renzo-McG/Ashworth-and-Vale`
-- **Rolling preview:** `https://renzo-mcg.github.io/Ashworth-and-Vale/`
+- **Branded live demo:** `https://ashworth-vale.akaristudio.co.uk/`
+- **GitHub Pages fallback:** `https://renzo-mcg.github.io/Ashworth-and-Vale/`
 - **Local site root:** `AkariStudios/akari-studio-site/`
 
 The desired impression is: **what if Google or Apple approached residential design and build?** That means clean, calm, modern, precise, spacious, and quietly premium—not cold, corporate, trendy for its own sake, or visually overworked.
